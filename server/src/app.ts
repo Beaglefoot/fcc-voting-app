@@ -5,6 +5,8 @@ import passport from 'passport';
 import logger from './middleware/logger';
 import rootRouter from './routes/root';
 import authRouter from './routes/auth';
+import usersRouter from './routes/users';
+import pollsRouter from './routes/polls';
 
 import './services/passport';
 
@@ -34,6 +36,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRouter);
+app.use('/users', usersRouter);
+app.use('/polls', pollsRouter);
 app.use('/', rootRouter);
 
 export default app;
