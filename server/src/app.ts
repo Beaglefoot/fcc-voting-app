@@ -3,6 +3,7 @@ import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import logger from './middleware/logger';
+import rootRouter from './routes/root';
 import authRouter from './routes/auth';
 
 import './services/passport';
@@ -33,11 +34,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRouter);
-
-app.get('/', (_, res) => {
-  res.render('index', {}, (err, html) => {
-    res.send(html);
-  });
-});
+app.use('/', rootRouter);
 
 export default app;
