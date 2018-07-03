@@ -1,8 +1,13 @@
 import express from 'express';
+import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
+import passport from 'passport';
 import logger from './middleware/logger';
+import authRouter from './routes/auth';
 
-const { MONGO_URI } = process.env;
+import './services/passport';
+
+const { MONGO_URI, SESSION_SECRET } = process.env;
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -15,6 +20,19 @@ app.set('view engine', 'ejs');
 app.use(logger);
 app.use(express.static('public'));
 app.use(express.json());
+
+app.use(
+  cookieSession({
+    name: 'session',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [SESSION_SECRET]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/auth', authRouter);
 
 app.get('/', (_, res) => {
   res.render('index', {}, (err, html) => {
