@@ -1,0 +1,25 @@
+body {
+  font-family: 'Noto Sans', Arial, sans-serif;
+  font-size: 15px;
+  margin: 0;
+}
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  color: #333;
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: 1fr minmax(50%, 1.3fr);
+  grid-template-areas:
+    'title title'
+    'description description';
+}
+
+.title {
+  grid-area: title;
+}
+
+.description {
+  grid-area: description;
+}
