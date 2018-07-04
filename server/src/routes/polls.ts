@@ -1,22 +1,10 @@
 import { Router } from 'express';
-import Poll from '../models/Poll';
+import getPoll from '../controllers/polls/getPoll';
+import createPoll from '../controllers/polls/createPoll';
 
 const router = Router();
 
-router.get('/:pollID', async (req, res) => {
-  const { pollID } = req.params;
-
-  const poll = await Poll.findById(pollID);
-  console.log(poll);
-  res.send(poll);
-});
-
-router.post('/', async (req, res) => {
-  const { ...poll } = req.body;
-
-  const { _id } = await new Poll({ ...poll }).save();
-
-  res.send(`Created a poll with id: ${_id}`);
-});
+router.get('/:pollID', getPoll);
+router.post('/', createPoll);
 
 export default router;

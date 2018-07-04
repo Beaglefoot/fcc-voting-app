@@ -1,20 +1,12 @@
 import { Router } from 'express';
+import renderMainPage from '../controllers/renderMainPage';
+import logout from '../controllers/auth/logout';
+import authenticationCheck from '../controllers/auth/authenticationCheck';
 
 const router = Router();
 
-router.get('/', (_, res) => {
-  res.render('index', {}, (err, html) => {
-    res.send(html);
-  });
-});
-
-router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
-
-router.get('/authorization_test', (req, res) => {
-  res.send(req.isAuthenticated());
-});
+router.get('/', renderMainPage);
+router.get('/logout', logout);
+router.get('/authentication_check', authenticationCheck);
 
 export default router;

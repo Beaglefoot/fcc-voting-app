@@ -11,6 +11,7 @@ import pollsRouter from './routes/polls';
 import './services/passport';
 
 const { MONGO_URI, SESSION_SECRET } = process.env;
+const MILLISECONDS_IN_ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use(
   cookieSession({
     name: 'session',
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    maxAge: MILLISECONDS_IN_ONE_MONTH,
     keys: [SESSION_SECRET]
   })
 );
