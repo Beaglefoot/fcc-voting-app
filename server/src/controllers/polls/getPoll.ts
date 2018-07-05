@@ -1,11 +1,17 @@
 import express from 'express';
-import Poll from '../../models/Poll';
+import Poll, { IPoll } from '../../models/Poll';
 
 const getPoll: express.Handler = async (req, res) => {
   const { pollID } = req.params;
+  let poll: IPoll;
 
-  const poll = await Poll.findById(pollID);
-  console.log(poll);
+  try {
+    poll = await Poll.findById(pollID);
+  } catch (err) {
+    err.httpStatusCode = 404;
+    throw err;
+  }
+
   res.send(poll);
 };
 

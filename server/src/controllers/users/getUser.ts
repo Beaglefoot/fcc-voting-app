@@ -1,9 +1,17 @@
 import express from 'express';
-import User from '../../models/User';
+import User, { IUser } from '../../models/User';
 
 const getUser: express.Handler = async (req, res) => {
   const { userID } = req.params;
-  const user = await User.findById(userID);
+  let user: IUser;
+
+  try {
+    user = await User.findById(userID);
+  } catch (err) {
+    err.httpStatusCode = 404;
+    throw err;
+  }
+
   res.send(user);
 };
 
