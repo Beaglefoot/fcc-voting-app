@@ -1,0 +1,7 @@
+{
+  "title": "Red or Black?",
+  "options": [
+    { "name": "red" },
+    { "name": "black" }
+  ]
+}
