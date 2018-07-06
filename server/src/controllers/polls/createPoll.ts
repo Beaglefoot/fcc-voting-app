@@ -1,8 +1,9 @@
 import express from 'express';
 import Poll, { IPoll } from '../../models/Poll';
+import getIP from '../../helpers/getIP';
 
 const createPoll: express.Handler = async (req, res) => {
-  const { ...fields } = req.body;
+  const fields = Object.assign({}, req.body, { author: { ip: getIP(req) } });
   let poll: IPoll;
 
   try {
