@@ -6,19 +6,22 @@ export interface IAuthor {
   user?: Schema.Types.ObjectId;
 }
 
-const AuthorSchema = new Schema({
-  ip: {
-    type: String,
-    validate: {
-      validator: isValidIP,
-      message: 'Valid IP address should be provided.'
+const AuthorSchema = new Schema(
+  {
+    ip: {
+      type: String,
+      validate: {
+        validator: isValidIP,
+        message: 'Valid IP address should be provided.'
+      },
+      required: [true, 'IP address is required.']
     },
-    required: [true, 'IP address is required.']
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users'
+    }
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'users'
-  }
-});
+  { _id: false }
+);
 
 export default AuthorSchema;
