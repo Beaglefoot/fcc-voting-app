@@ -1,5 +1,6 @@
 import express from 'express';
 import Poll, { IPoll } from '../../models/Poll';
+import User from '../../models/User';
 import getIP from '../../helpers/getIP';
 
 const createPoll: express.Handler = async (req, res) => {
@@ -17,6 +18,7 @@ const createPoll: express.Handler = async (req, res) => {
 
   try {
     poll = await new Poll({ ...fields }).save();
+    await User.findByIdAndUpdate(req.user.id, { $push: { polls: poll._id } });
   } catch (err) {
     err.httpStatusCode = 400;
     throw err;
