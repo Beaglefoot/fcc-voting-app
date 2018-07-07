@@ -2,13 +2,10 @@ import express from 'express';
 import Poll, { IPoll } from '../../models/Poll';
 import User from '../../models/User';
 import getIP from '../../helpers/getIP';
+import throwUnauth from '../../helpers/throwUnauth';
 
 const createPoll: express.Handler = async (req, res) => {
-  if (!req.isAuthenticated()) {
-    throw Object.assign(new Error('Unauthorized access.'), {
-      httpStatusCode: 401
-    });
-  }
+  if (!req.isAuthenticated()) throwUnauth();
 
   const fields = Object.assign({}, req.body, {
     author: { ip: getIP(req), user: req.user.id }

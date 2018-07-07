@@ -1,13 +1,12 @@
 import express from 'express';
 import User, { IUser } from '../../models/User';
+import throwUnauth from '../../helpers/throwUnauth';
 
 const getUser: express.Handler = async (req, res) => {
   const { userID } = req.params;
 
   if (!req.isAuthenticated() || req.user.id !== userID) {
-    throw Object.assign(new Error('Unauthorized access.'), {
-      httpStatusCode: 401
-    });
+    throwUnauth();
   }
 
   let user: IUser;

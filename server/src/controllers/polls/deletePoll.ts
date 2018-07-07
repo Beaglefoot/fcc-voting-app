@@ -1,12 +1,9 @@
 import express from 'express';
 import Poll, { IPoll } from '../../models/Poll';
+import throwUnauth from '../../helpers/throwUnauth';
 
 const deletePoll: express.Handler = async (req, res) => {
-  if (!req.isAuthenticated()) {
-    throw Object.assign(new Error('Unauthorized access.'), {
-      httpStatusCode: 401
-    });
-  }
+  if (!req.isAuthenticated()) throwUnauth();
 
   const { pollID } = req.params;
   let poll: IPoll;
@@ -14,11 +11,7 @@ const deletePoll: express.Handler = async (req, res) => {
   try {
     poll = await Poll.findById(pollID);
 
-    if (poll.author.user.toString() !== req.user.id) {
-      throw Object.assign(new Error('Unauthorized access.'), {
-        httpStatusCode: 401
-      });
-    }
+    if (poll.author.user.toString() !== req.user.id) throwUnauth();
 
     poll = await Poll.findByIdAndRemove(pollID);
   } catch (err) {
