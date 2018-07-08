@@ -1,12 +1,12 @@
 import { Schema } from 'mongoose';
 import isValidIP from '../helpers/isValidIP';
 
-export interface IAuthor {
+export interface IUserRef {
   ip: string;
   user?: Schema.Types.ObjectId;
 }
 
-const AuthorSchema = new Schema(
+const UserRefSchema = new Schema(
   {
     ip: {
       type: String,
@@ -24,4 +24,4 @@ const AuthorSchema = new Schema(
   { _id: false }
 );
 
-export default AuthorSchema;
+export default UserRefSchema;

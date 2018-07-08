@@ -1,11 +1,11 @@
 import { Schema, model, Document } from 'mongoose';
-import AuthorSchema, { IAuthor } from './Author';
+import UserRefSchema, { IUserRef } from './UserRef';
 import OptionSchema, { IOption } from './Option';
 
 export interface IPoll extends Document {
   title: string;
   options: IOption[];
-  author: IAuthor;
+  author: IUserRef;
 }
 
 const PollSchema = new Schema({
@@ -24,9 +24,11 @@ const PollSchema = new Schema({
   },
 
   author: {
-    type: AuthorSchema,
-    required: [true, 'Author is required.']
-  }
+    type: UserRefSchema,
+    required: [true, 'UserRef is required.']
+  },
+
+  voters: [UserRefSchema]
 });
 
 const Poll = model<IPoll>('poll', PollSchema);
