@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "npm run lint --",
+      "tslint -p tsconfig.json",
       "git add"
     ]
   },

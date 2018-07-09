@@ -12,7 +12,7 @@ const getUser: express.Handler = async (req, res) => {
   let user: IUser;
 
   try {
-    user = await User.findById(userID);
+    user = await User.findById(userID).populate('polls');
   } catch (err) {
     err.httpStatusCode = 404;
     throw err;

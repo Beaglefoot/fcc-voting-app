@@ -18,7 +18,7 @@ const UserRefSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'users'
+      ref: 'user'
     }
   },
   { _id: false }
