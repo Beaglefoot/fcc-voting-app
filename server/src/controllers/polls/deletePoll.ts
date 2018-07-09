@@ -9,17 +9,25 @@ const deletePoll: express.Handler = async (req, res) => {
   let poll: IPoll;
 
   try {
-    poll = await Poll.findById(pollID);
+    // To make pre hooks work several things have to be done
+    // in this convoluted way.
+    // https://github.com/Automattic/mongoose/issues/964
+    poll = await ((): Promise<IPoll> =>
+      new Promise(resolve => {
+        Poll.findById(pollID, (err, poll) => {
+          if (err) throw err;
+          if (poll.author.user.toString() !== req.user.id) throwUnauth();
 
-    if (poll.author.user.toString() !== req.user.id) throwUnauth();
-
-    poll = await Poll.findByIdAndRemove(pollID);
+          poll.remove();
+          resolve(poll);
+        });
+      }))();
   } catch (err) {
     if (!err.httpStatusCode) err.httpStatusCode = 400;
     throw err;
   }
 
-  res.json(poll);
+  res.status(204).json(poll);
 };
 
 export default deletePoll;

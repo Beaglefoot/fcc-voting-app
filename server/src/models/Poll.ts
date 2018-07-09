@@ -1,6 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 import UserRefSchema, { IUserRef } from './UserRef';
 import OptionSchema, { IOption } from './Option';
+import User from './User';
 import isUniqBy from '../helpers/isUniqBy';
 
 export interface IPoll extends Document {
@@ -37,6 +38,12 @@ const PollSchema = new Schema({
   },
 
   voters: [UserRefSchema]
+});
+
+PollSchema.pre<IPoll>('remove', async function() {
+  await User.findByIdAndUpdate(this.author.user, {
+    $pull: { polls: this._id }
+  });
 });
 
 const Poll = model<IPoll>('poll', PollSchema);
