@@ -8,21 +8,28 @@ const addVote: express.Handler = async (req, res) => {
   let poll: IPoll;
 
   try {
-    const isVoted = Boolean(
-      await Poll.findOne(
-        Object.assign(
-          { _id: pollID },
-          req.user
-            ? { 'voters.user': req.user.id }
-            : { 'voters.ip': getIP(req) }
-        )
-      )
+    poll = await Poll.findById(pollID);
+
+    const isVoted = poll.voters.some(
+      ({ user, ip }) =>
+        req.user ? req.user.id === user.toString() : ip === getIP(req)
     );
 
     if (isVoted)
       throw Object.assign(new Error('Already voted.'), { httpStatusCode: 403 });
 
-    poll = await Poll.findOneAndUpdate(
+    if (
+      req.isAuthenticated() &&
+      !poll.options.some(option => option.name === name)
+    ) {
+      await Poll.findByIdAndUpdate(pollID, {
+        $push: {
+          options: { name }
+        }
+      });
+    }
+
+    await Poll.findOneAndUpdate(
       { _id: pollID, 'options.name': name },
       {
         $inc: { 'options.$.votes': 1 },
@@ -34,8 +41,6 @@ const addVote: express.Handler = async (req, res) => {
         }
       }
     );
-
-    if (!poll) throw new Error('Not found.');
 
     poll = await Poll.findById(pollID);
   } catch (err) {

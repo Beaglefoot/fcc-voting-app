@@ -7,6 +7,7 @@ export interface IPoll extends Document {
   title: string;
   options: IOption[];
   author: IUserRef;
+  voters: IUserRef[];
 }
 
 const PollSchema = new Schema({
