@@ -1,0 +1,29 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": [
+          "last 2 Chrome versions",
+          "last 2 Firefox versions",
+          "last 2 Edge versions"
+        ]
+      },
+      "modules": false,
+      "loose": true
+    }],
+    "react"
+  ],
+  "plugins": ["react-hot-loader/babel", "transform-object-rest-spread", "syntax-dynamic-import"],
+  "env": {
+    "test": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }],
+      "react"
+      ]
+    }
+  }
+}

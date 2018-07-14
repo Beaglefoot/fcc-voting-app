@@ -1,0 +1,17 @@
+@import 'src/styles/variables.scss';
+
+.container {
+  padding-bottom: 1%;
+  background: $clr_container_bg;
+  color: #3d1c00;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: auto;
+  font-family: 'Calibri', 'Arial';
+
+  h1 {
+    margin-top: 5%;
+    padding-top: 2%;
+  }
+}

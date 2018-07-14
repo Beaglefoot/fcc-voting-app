@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+dist
+*.swp
+stats.json
+.awcache/
+index.html

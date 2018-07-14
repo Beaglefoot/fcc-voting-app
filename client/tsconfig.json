@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./ts-build",
+    "target": "es2017",
+    "module": "es6",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowJs": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "assets/*": ["assets/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
