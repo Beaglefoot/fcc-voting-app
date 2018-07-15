@@ -4,10 +4,11 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
+import reducer from 'src/reducers/reducer';
 import App from './components/App/App';
 
 const store = createStore(
-  () => ({ msg: 'Redux store is created' }),
+  reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
