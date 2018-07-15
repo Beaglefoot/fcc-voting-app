@@ -12,6 +12,9 @@ const App = (props: IProps) => {
     <div className={container}>
       <h1>fcc-voting-app</h1>
       <p>{props.msg}</p>
+      <a href="/auth/github">Auth</a>
+      <br />
+      <a href="/api/authentication_check">Am I authenticated?</a>
     </div>
   );
 };

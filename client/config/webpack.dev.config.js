@@ -30,7 +30,13 @@ const devConfig = merge.smartStrategy({
     contentBase: path.join(projectRootDir, 'dist'),
     port,
     inline: true,
-    hot: true
+    hot: true,
+    proxy: [
+      {
+        context: ['/api', '/auth'],
+        target: 'http://localhost:3000'
+      }
+    ]
   }
 });
 
