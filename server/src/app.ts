@@ -37,8 +37,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
-app.use('/polls', pollsRouter);
-app.use('/', rootRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/polls', pollsRouter);
+app.use('/api/', rootRouter);
 
 export default app;
