@@ -1,12 +1,9 @@
 import { Reducer } from 'redux';
+import { initialState } from 'src/state/state';
 
 interface IReduction {
   [prop: string]: () => {};
 }
-
-const initialState = {
-  msg: 'This goes from redux store'
-};
 
 const reducer: Reducer = (state = initialState, action) => {
   if (typeof action.payload === 'function') return action.payload(state);

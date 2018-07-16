@@ -1,38 +1,45 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { changeMessage } from 'src/actions/actions';
+import { IAuth } from 'src/state/state';
+import { ThunkActionFunctionCreator } from 'src/actions/actions';
+import { fetchUser } from 'src/actions/fetchUser';
 import { container } from './App.scss';
 
 export interface IProps {
-  msg: string;
-  changeMessage: changeMessage;
+  auth: IAuth;
+  fetchUser: ThunkActionFunctionCreator;
 }
 
-const App = (props: IProps) => {
-  return (
-    <div className={container}>
-      <h1>fcc-voting-app</h1>
-      <p>{props.msg}</p>
-      <a href="/auth/github">Auth</a>
-      <br />
-      <a href="/api/authentication_check">Am I authenticated?</a>
-      <br />
-      <label>Change message</label>
-      <input
-        id="change-msg"
-        type="text"
-        onChange={e => {
-          props.changeMessage(e.target.value);
-        }}
-      />
-    </div>
-  );
-};
+class App extends React.Component<IProps> {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
 
-const mapStateToProps = ({ msg }: IProps) => ({ msg });
+  render() {
+    const { fetchStatus, data } = this.props.auth;
+
+    return (
+      <div className={container}>
+        <h1>fcc-voting-app</h1>
+        <p>
+          {
+            {
+              done: `You are ${data ? '' : 'not '} authenicated`,
+              error: data,
+              pending: 'Loading...'
+            }[fetchStatus]
+          }
+        </p>
+        <a href="/auth/github">Auth</a>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = ({ auth }: IProps) => ({ auth });
 
 export default connect(
   mapStateToProps,
-  { changeMessage }
+  { fetchUser }
 )(App);

@@ -1,11 +1,12 @@
-export type changeMessage = (
-  msg: string
-) => {
-  type: 'CHANGE_MESSAGE';
-  payload: (state: {}) => {};
-};
+import { ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { IState } from 'src/state/state';
 
-export const changeMessage: changeMessage = msg => ({
-  type: 'CHANGE_MESSAGE',
-  payload: state => ({ ...state, msg })
-});
+export interface IPayloadAsAFunction {
+  type: string;
+  payload: (state: {}) => {};
+}
+
+export type ThunkActionFunctionCreator = ActionCreator<
+  ThunkAction<void | Promise<void>, IState, null, IPayloadAsAFunction>
+>;
