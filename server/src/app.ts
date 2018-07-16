@@ -3,10 +3,9 @@ import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import logger from './middleware/logger';
-import rootRouter from './routes/root';
+import apiRouter from './routes/api';
 import authRouter from './routes/auth';
-import usersRouter from './routes/users';
-import pollsRouter from './routes/polls';
+import renderMainPage from './controllers/renderMainPage';
 
 import './services/passport';
 
@@ -36,9 +35,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', renderMainPage);
 app.use('/auth', authRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/polls', pollsRouter);
-app.use('/api/', rootRouter);
+app.use('/api/', apiRouter);
 
 export default app;
