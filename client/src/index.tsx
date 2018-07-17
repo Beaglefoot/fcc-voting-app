@@ -8,6 +8,8 @@ import { AppContainer } from 'react-hot-loader';
 import reducer from 'src/reducers/reducer';
 import App from './components/App/App';
 
+import 'src/styles/global.scss';
+
 const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),

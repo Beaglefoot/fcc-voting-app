@@ -6,7 +6,9 @@ import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchUser } from 'src/actions/fetchUser';
 import { container } from './App.scss';
 
-export interface IProps {
+import NavBar from 'src/components/NavBar/NavBar';
+
+interface IProps {
   auth: IAuth;
   fetchUser: ThunkActionFunctionCreator;
 }
@@ -21,7 +23,8 @@ class App extends React.Component<IProps> {
 
     return (
       <div className={container}>
-        <h1>fcc-voting-app</h1>
+        <NavBar />
+
         <p>
           {
             {
@@ -31,6 +34,7 @@ class App extends React.Component<IProps> {
             }[fetchStatus]
           }
         </p>
+
         <a href="/auth/github">Auth</a>
       </div>
     );
