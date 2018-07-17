@@ -1,39 +1,20 @@
-import axios, { AxiosResponse } from 'axios';
 import * as R from 'ramda';
-import { IPayloadAsAFunction, ThunkActionFunctionCreator } from './actions';
+import getNetworkRequestActionCreator from 'src/helpers/getNetworkRequestActionCreator';
+import { IState } from 'src/state/state';
 
-export const fetchUser: ThunkActionFunctionCreator = () => async dispatch => {
-  let res: AxiosResponse;
-
-  const fetchStart: IPayloadAsAFunction = {
-    type: 'FETCH_USER_START',
-    payload: state => R.assoc('auth', { fetchStatus: 'pending' }, state)
-  };
-
-  const fetchError: IPayloadAsAFunction = {
-    type: 'FETCH_USER_ERROR',
-    payload: state =>
+export const fetchUser = getNetworkRequestActionCreator({
+  url: '/api/current_user',
+  namePrefix: 'FETCH_USER',
+  payload: {
+    start: (state: IState) =>
+      R.assoc('auth', { fetchStatus: 'pending' }, state),
+    error: (state: IState) =>
       R.assoc(
         'auth',
         { fetchStatus: 'error', data: 'Could not get user data.' },
         state
-      )
-  };
-
-  const fetchSuccess: IPayloadAsAFunction = {
-    type: 'FETCH_USER_DONE',
-    payload: state =>
+      ),
+    done: (state: IState, res: any) =>
       R.assoc('auth', { fetchStatus: 'done', data: res.data }, state)
-  };
-
-  dispatch(fetchStart);
-
-  try {
-    res = await axios.get('/api/current_user');
-  } catch (err) {
-    dispatch(fetchError);
-    return;
   }
-
-  dispatch(fetchSuccess);
-};
+});

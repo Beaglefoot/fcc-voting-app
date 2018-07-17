@@ -1,37 +1,20 @@
-import axios from 'axios';
 import * as R from 'ramda';
-import { IPayloadAsAFunction, ThunkActionFunctionCreator } from './actions';
+import getNetworkRequestActionCreator from 'src/helpers/getNetworkRequestActionCreator';
+import { IState } from 'src/state/state';
 
-export const logout: ThunkActionFunctionCreator = () => async dispatch => {
-  const fetchStart: IPayloadAsAFunction = {
-    type: 'LOGOUT_START',
-    payload: state => R.assoc('auth', { fetchStatus: 'pending' }, state)
-  };
-
-  const fetchError: IPayloadAsAFunction = {
-    type: 'LOGOUT_ERROR',
-    payload: state =>
+export const logout = getNetworkRequestActionCreator({
+  url: '/api/logout',
+  namePrefix: 'LOGOUT',
+  payload: {
+    start: (state: IState) =>
+      R.assoc('auth', { fetchStatus: 'pending' }, state),
+    error: (state: IState) =>
       R.assoc(
         'auth',
         { fetchStatus: 'error', data: 'Failed to logout.' },
         state
-      )
-  };
-
-  const fetchSuccess: IPayloadAsAFunction = {
-    type: 'LOGOUT_DONE',
-    payload: state =>
+      ),
+    done: (state: IState) =>
       R.assoc('auth', { fetchStatus: 'done', data: null }, state)
-  };
-
-  dispatch(fetchStart);
-
-  try {
-    await axios.get('/api/logout');
-  } catch (err) {
-    dispatch(fetchError);
-    return;
   }
-
-  dispatch(fetchSuccess);
-};
+});
