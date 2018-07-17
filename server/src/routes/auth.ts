@@ -8,7 +8,7 @@ router.get(
   '/github/callback',
   passport.authenticate('github', {
     failureRedirect: '/',
-    successRedirect: '/api/authentication_check'
+    successRedirect: '/'
   })
 );
 

@@ -25,7 +25,7 @@ class App extends React.Component<IProps> {
       <div className={container}>
         <NavBar />
 
-        <p>
+        <div style={{ padding: '1rem' }}>
           {
             {
               done: `You are ${data ? '' : 'not '} authenicated`,
@@ -33,9 +33,7 @@ class App extends React.Component<IProps> {
               pending: 'Loading...'
             }[fetchStatus]
           }
-        </p>
-
-        <a href="/auth/github">Auth</a>
+        </div>
       </div>
     );
   }
