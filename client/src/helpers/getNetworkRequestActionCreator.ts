@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { ThunkActionFunctionCreator } from '../actions/actions';
 
 interface INetworkRequestActionCreatorParams {
   url: string;
+  config?: AxiosRequestConfig;
   namePrefix: string;
   payload: {
     start: any;
@@ -17,6 +18,7 @@ export type TGetNetworkRequestActionCreator = (
 
 const getNetworkRequestActionCreator: TGetNetworkRequestActionCreator = ({
   url,
+  config = { method: 'GET' },
   namePrefix,
   payload: { start, error, done }
 }) => () => async dispatch => {
@@ -43,7 +45,7 @@ const getNetworkRequestActionCreator: TGetNetworkRequestActionCreator = ({
   dispatch(fetchStart);
 
   try {
-    response = await axios.get(url);
+    response = await axios({ ...config, url });
   } catch (err) {
     dispatch(fetchError);
     return;

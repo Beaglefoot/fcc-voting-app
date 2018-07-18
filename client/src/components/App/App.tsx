@@ -7,6 +7,7 @@ import { fetchUser } from 'src/actions/fetchUser';
 import { container } from './App.scss';
 
 import NavBar from 'src/components/NavBar/NavBar';
+import PollsList from 'src/components/PollsList/PollsList';
 
 interface IProps {
   auth: IAuth;
@@ -34,6 +35,8 @@ class App extends React.Component<IProps> {
             }[fetchStatus]
           }
         </div>
+
+        <PollsList />
       </div>
     );
   }
