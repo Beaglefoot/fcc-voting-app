@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { AxiosResponse } from 'axios';
 import getNetworkRequestActionCreator from 'src/helpers/getNetworkRequestActionCreator';
 import { IState } from 'src/state/state';
 
@@ -7,14 +8,22 @@ export const logout = getNetworkRequestActionCreator({
   namePrefix: 'LOGOUT',
   payload: {
     start: (state: IState) =>
-      R.assoc('auth', { fetchStatus: 'pending' }, state),
+      R.assocPath(['auth', 'fetchStatus'], 'pending', state),
     error: (state: IState) =>
-      R.assoc(
-        'auth',
-        { fetchStatus: 'error', data: 'Failed to logout.' },
+      R.over(
+        R.lensProp('auth'),
+        slice => ({
+          ...slice,
+          fetchStatus: 'error',
+          error: 'Failed to logout.'
+        }),
         state
       ),
-    done: (state: IState) =>
-      R.assoc('auth', { fetchStatus: 'done', data: null }, state)
+    done: (state: IState, res: AxiosResponse) =>
+      R.over(
+        R.lensProp('auth'),
+        slice => ({ ...slice, fetchStatus: 'done', data: null }),
+        state
+      )
   }
 });

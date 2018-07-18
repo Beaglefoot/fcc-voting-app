@@ -10,12 +10,20 @@ export const fetchPolls = getNetworkRequestActionCreator({
     start: (state: IState) =>
       R.assocPath(['polls', 'fetchStatus'], 'pending', state),
     error: (state: IState) =>
-      R.assoc(
-        'polls',
-        { fetchStatus: 'error', data: 'Failed to fetch polls.' },
+      R.over(
+        R.lensProp('polls'),
+        slice => ({
+          ...slice,
+          fetchStatus: 'error',
+          error: 'Failed to fetch polls.'
+        }),
         state
       ),
-    done: (state: IState, response: AxiosResponse) =>
-      R.assoc('polls', { fetchStatus: 'done', data: response.data }, state)
+    done: (state: IState, res: AxiosResponse) =>
+      R.over(
+        R.lensProp('polls'),
+        slice => ({ ...slice, fetchStatus: 'done', data: res.data }),
+        state
+      )
   }
 });

@@ -3,6 +3,7 @@ type fetchStatus = 'done' | 'pending' | 'error';
 export interface IAuth {
   fetchStatus: fetchStatus;
   data: any;
+  error: null | Error;
 }
 
 export interface IPoll {
@@ -14,6 +15,7 @@ export interface IPoll {
 export interface IPolls {
   fetchStatus: fetchStatus;
   data: IPoll[];
+  error: null | Error;
 }
 
 export interface IState {
@@ -24,11 +26,13 @@ export interface IState {
 export const initialState: IState = {
   auth: {
     fetchStatus: 'done',
-    data: null
+    data: null,
+    error: null
   },
 
   polls: {
     fetchStatus: 'done',
-    data: []
+    data: [],
+    error: null
   }
 };

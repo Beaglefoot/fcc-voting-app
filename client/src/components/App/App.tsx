@@ -20,7 +20,7 @@ class App extends React.Component<IProps> {
   }
 
   render() {
-    const { fetchStatus, data } = this.props.auth;
+    const { fetchStatus, data, error } = this.props.auth;
 
     return (
       <div className={container}>
@@ -30,7 +30,7 @@ class App extends React.Component<IProps> {
           {
             {
               done: `You are ${data ? '' : 'not '} authenicated`,
-              error: data,
+              error,
               pending: 'Loading...'
             }[fetchStatus]
           }

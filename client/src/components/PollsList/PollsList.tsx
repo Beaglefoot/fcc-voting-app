@@ -18,20 +18,22 @@ class PollsList extends React.Component<IProps> {
   }
 
   render() {
-    const { polls } = this.props;
+    const {
+      polls: { fetchStatus, data, error }
+    } = this.props;
 
     return (
       <div>
         {{
           done: () =>
-            polls.data.map(poll => (
+            data.map(poll => (
               <div className={record} key={poll._id}>{`${poll.title} (${
                 poll.votesCount
               })`}</div>
             )),
           pending: () => <div>Loading...</div>,
-          error: () => <div>{polls.data}</div>
-        }[polls.fetchStatus]()}
+          error: () => <div>{error}</div>
+        }[fetchStatus]()}
       </div>
     );
   }
