@@ -31,6 +31,7 @@ const devConfig = merge.smartStrategy({
     port,
     inline: true,
     hot: true,
+    historyApiFallback: true,
     proxy: [
       {
         context: ['/api', '/auth'],

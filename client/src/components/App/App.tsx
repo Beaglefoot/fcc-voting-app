@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import { IAuth } from 'src/state/state';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
@@ -8,6 +9,7 @@ import { container } from './App.scss';
 
 import NavBar from 'src/components/NavBar/NavBar';
 import PollsList from 'src/components/PollsList/PollsList';
+import Profile from 'src/components/Profile/Profile';
 
 interface IProps {
   auth: IAuth;
@@ -23,21 +25,24 @@ class App extends React.Component<IProps> {
     const { fetchStatus, data, error } = this.props.auth;
 
     return (
-      <div className={container}>
-        <NavBar />
+      <BrowserRouter>
+        <div className={container}>
+          <Route component={NavBar} />
 
-        <div style={{ padding: '1rem' }}>
-          {
+          <div style={{ padding: '1rem' }}>
             {
-              done: `You are ${data ? '' : 'not '} authenicated`,
-              error,
-              pending: 'Loading...'
-            }[fetchStatus]
-          }
-        </div>
+              {
+                done: `You are ${data ? '' : 'not '} authenicated`,
+                error,
+                pending: 'Loading...'
+              }[fetchStatus]
+            }
+          </div>
 
-        <PollsList />
-      </div>
+          <Route exact path="/" component={PollsList} />
+          <Route exact path="/profile" component={Profile} />
+        </div>
+      </BrowserRouter>
     );
   }
 }

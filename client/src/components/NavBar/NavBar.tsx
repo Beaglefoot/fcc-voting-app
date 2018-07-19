@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Link, Switch, Route } from 'react-router-dom';
 
 import { IAuth } from 'src/state/state';
 import { logout } from 'src/actions/logout';
@@ -13,12 +14,24 @@ interface IProps {
 
 const NavBar = ({ auth, logout }: IProps) => (
   <div className={navbar}>
-    <div className={header}>fcc-voting-app</div>
+    <Link to="/" className={header}>
+      fcc-voting-app
+    </Link>
 
     <div className={buttons}>
       {auth.fetchStatus === 'done' && auth.data ? (
         <React.Fragment>
-          <a className={button}>Profile</a>
+          <Switch>
+            <Route path="/profile" />
+            <Route
+              render={() => (
+                <Link to="/profile" className={button}>
+                  Profile
+                </Link>
+              )}
+            />
+          </Switch>
+
           <a
             className={button}
             href="/api/logout"
