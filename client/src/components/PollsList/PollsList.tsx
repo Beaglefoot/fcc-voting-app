@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchPolls } from 'src/actions/fetchPolls';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { IPolls } from 'src/state/state';
+import Spinner from 'src/components/Spinner/Spinner';
 
 import { record } from './PollsList.scss';
 
@@ -31,7 +32,7 @@ class PollsList extends React.Component<IProps> {
                 poll.votesCount
               })`}</div>
             )),
-          pending: () => <div>Loading...</div>,
+          pending: () => <Spinner />,
           error: () => <div>{error}</div>
         }[fetchStatus]()}
       </div>
