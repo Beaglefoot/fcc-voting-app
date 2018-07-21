@@ -10,11 +10,14 @@ import { container } from './App.scss';
 import NavBar from 'src/components/NavBar/NavBar';
 import PollsList from 'src/components/PollsList/PollsList';
 import Profile from 'src/components/Profile/Profile';
+import providePolls from 'src/hocs/providePolls';
 
 interface IProps {
   auth: IAuth;
   fetchUser: ThunkActionFunctionCreator;
 }
+
+const AllPolls = providePolls('/api/polls')(PollsList);
 
 class App extends React.Component<IProps> {
   componentDidMount() {
@@ -39,7 +42,7 @@ class App extends React.Component<IProps> {
             }
           </div>
 
-          <Route exact path="/" component={PollsList} />
+          <Route exact path="/" component={AllPolls} />
           <Route exact path="/profile" component={Profile} />
         </div>
       </BrowserRouter>

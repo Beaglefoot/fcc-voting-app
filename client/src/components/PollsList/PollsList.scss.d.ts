@@ -1,1 +1,2 @@
-export const record: string;
+export const pollsList: string;
+export const listItem: string;
