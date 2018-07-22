@@ -11,6 +11,7 @@ import NavBar from 'src/components/NavBar/NavBar';
 import PollsList from 'src/components/PollsList/PollsList';
 import Profile from 'src/components/Profile/Profile';
 import providePolls from 'src/hocs/providePolls';
+import Poll from 'src/components/Poll/Poll';
 
 interface IProps {
   auth: IAuth;
@@ -44,6 +45,7 @@ class App extends React.Component<IProps> {
 
           <Route exact path="/" component={AllPolls} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/poll/:pollID" component={Poll} />
         </div>
       </BrowserRouter>
     );
