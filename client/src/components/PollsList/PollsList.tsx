@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { IPolls } from 'src/state/state';
+import { TPolls } from 'src/state/state';
 import Spinner from 'src/components/Spinner/Spinner';
 import { pollsList, listItem, link } from './PollsList.scss';
 
 interface IProps {
-  polls: IPolls;
+  polls: TPolls;
 }
 
 const PollsList = ({ polls: { fetchStatus, data, error } }: IProps) => (

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { IAuth } from 'src/state/state';
+import { TAuth } from 'src/state/state';
 import PollsList from 'src/components/PollsList/PollsList';
 import providePolls from 'src/hocs/providePolls';
 
 interface IProps {
-  auth: IAuth;
+  auth: TAuth;
 }
 
 let UserPolls: React.ComponentClass;

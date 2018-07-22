@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link, Switch, Route } from 'react-router-dom';
 
-import { IAuth } from 'src/state/state';
+import { TAuth } from 'src/state/state';
 import { logout } from 'src/actions/logout';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { navbar, header, buttons, button } from './NavBar.scss';
 
 interface IProps {
-  auth: IAuth;
+  auth: TAuth;
   logout: ThunkActionFunctionCreator;
 }
 

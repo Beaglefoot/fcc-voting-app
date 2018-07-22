@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import { IAuth } from 'src/state/state';
+import { TAuth } from 'src/state/state';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchUser } from 'src/actions/fetchUser';
 import { container } from './App.scss';
@@ -14,7 +14,7 @@ import providePolls from 'src/hocs/providePolls';
 import Poll from 'src/components/Poll/Poll';
 
 interface IProps {
-  auth: IAuth;
+  auth: TAuth;
   fetchUser: ThunkActionFunctionCreator;
 }
 

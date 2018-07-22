@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { ThunkActionFunctionCreator } from '../actions/actions';
 
 interface INetworkRequestActionCreatorParams {
-  url: string;
+  url?: string;
   config?: AxiosRequestConfig;
   namePrefix: string;
   payload: {
@@ -17,7 +17,7 @@ export type TGetNetworkRequestActionCreator = (
 ) => ThunkActionFunctionCreator;
 
 const getNetworkRequestActionCreator: TGetNetworkRequestActionCreator = ({
-  url,
+  url = '',
   config = { method: 'GET' },
   namePrefix,
   payload: { start, error, done }

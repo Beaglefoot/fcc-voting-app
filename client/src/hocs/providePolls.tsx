@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import { fetchPolls } from 'src/actions/fetchPolls';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
-import { IPolls } from 'src/state/state';
+import { TPolls } from 'src/state/state';
 
 interface IPropsInjected {
-  polls: IPolls;
+  polls: TPolls;
 }
 
 interface IPropsExternal extends IPropsInjected {
