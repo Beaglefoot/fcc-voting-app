@@ -17,17 +17,17 @@ export interface IPoll {
   _id: string;
   title: string;
   votesCount?: number;
-  options?: {
+  options?: Array<{
     name: string;
     votes: number;
-  };
+  }>;
   author?: IUser;
   voters?: IUser[];
 }
 
 export type TAuth = INetworkRequest<IUser | ''>;
 export type TPolls = INetworkRequest<IPoll[]>;
-export type TSelectedPoll = INetworkRequest<IPoll | {}>;
+export type TSelectedPoll = INetworkRequest<IPoll | null>;
 
 export interface IState {
   auth: TAuth;
@@ -50,7 +50,7 @@ export const initialState: IState = {
 
   selectedPoll: {
     fetchStatus: 'done',
-    data: {},
+    data: null,
     error: null
   }
 };
