@@ -14,11 +14,12 @@ interface IProps {
   options: IOption[];
 }
 
-class Options extends React.Component<IProps> {
-  state: {
-    isEditing: boolean;
-  };
+interface IState {
+  isEditing: boolean;
+  additionalOptions: IOption[];
+}
 
+class Options extends React.Component<IProps, IState> {
   inputValue: string;
 
   constructor(props: IProps) {
@@ -26,7 +27,8 @@ class Options extends React.Component<IProps> {
 
     this.inputValue = '';
     this.state = {
-      isEditing: false
+      isEditing: false,
+      additionalOptions: []
     };
   }
 
@@ -34,9 +36,14 @@ class Options extends React.Component<IProps> {
     if (e.charCode === 13) {
       e.preventDefault();
 
+      const newOption: IOption = {
+        name: this.inputValue,
+        votes: 0
+      };
+
       this.setState(prevState => ({
-        ...prevState,
-        isEditing: false
+        isEditing: false,
+        additionalOptions: [...prevState.additionalOptions, newOption]
       }));
     }
   };
@@ -46,18 +53,18 @@ class Options extends React.Component<IProps> {
   };
 
   handlePlusClick: React.MouseEventHandler = () => {
-    this.setState(prevState => ({ ...prevState, isEditing: true }));
+    this.setState(prevState => ({ isEditing: true }));
   };
 
   render() {
     const { options } = this.props;
-    const { isEditing } = this.state;
+    const { isEditing, additionalOptions } = this.state;
 
     return (
       <form className={form}>
         <h3 className={title}>Vote for:</h3>
 
-        {options.map((option, i) => (
+        {[...options, ...additionalOptions].map((option, i) => (
           <React.Fragment key={i}>
             <input className={optionClass} type="radio" name="vote" />
             <label>{option.name}</label>
