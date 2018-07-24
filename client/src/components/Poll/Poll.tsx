@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { match } from 'react-router-dom';
-import { VictoryChart, VictoryBar, VictoryAxis } from 'victory';
+import { VictoryPie } from 'victory';
 
 import Spinner from 'src/components/Spinner/Spinner';
 import { TSelectedPoll } from 'src/state/state';
@@ -18,6 +18,8 @@ interface IProps {
 }
 
 class Poll extends React.Component<IProps> {
+  fontColor: string = '';
+
   componentDidMount() {
     this.props.fetchPoll(`/api/polls/${this.props.match.params.pollID}`);
   }
@@ -26,29 +28,14 @@ class Poll extends React.Component<IProps> {
     const { fetchStatus, data, error } = this.props.selectedPoll;
 
     return (
-      <div className={poll}>
-        <div style={{ width: '300px', height: '240px' }} className={chart}>
-          <VictoryChart domainPadding={{ y: 20 }}>
-            <VictoryAxis
-              tickValues={[1, 2, 3, 4]}
-              tickFormat={['A', 'B', 'C', 'D']}
-            />
-            <VictoryAxis dependentAxis tickCount={4} />
-            <VictoryBar
-              horizontal
-              style={{
-                data: { fill: 'yellowgreen' }
-              }}
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 2 },
-                { x: 3, y: 3 },
-                { x: 4, y: 4 }
-              ]}
-            />
-          </VictoryChart>
-        </div>
-
+      <div
+        className={poll}
+        ref={e => {
+          if (e instanceof Element) {
+            this.fontColor = getComputedStyle(e).color;
+          }
+        }}
+      >
         {{
           done: () => {
             if (!data) return null;
@@ -57,11 +44,21 @@ class Poll extends React.Component<IProps> {
             return (
               <React.Fragment>
                 <h2 className={titleClass}>{title}</h2>
-                {options.map(option => (
-                  <div key={option.name}>{`${option.name} - ${
-                    option.votes
-                  }`}</div>
-                ))}
+
+                <div className={chart}>
+                  <VictoryPie
+                    colorScale="cool"
+                    innerRadius={100}
+                    style={{
+                      labels: {
+                        fontSize: 22,
+                        fill: this.fontColor
+                      }
+                    }}
+                    data={options.map(({ name: x, votes: y }) => ({ x, y }))}
+                    labels={d => (d.y ? `${d.x}: ${d.y}` : '')}
+                  />
+                </div>
               </React.Fragment>
             );
           },

@@ -33,16 +33,6 @@ class App extends React.Component<IProps> {
         <div className={container}>
           <Route component={NavBar} />
 
-          <div style={{ padding: '1rem' }}>
-            {
-              {
-                done: `You are ${data ? '' : 'not '} authenicated`,
-                error,
-                pending: 'Loading...'
-              }[fetchStatus]
-            }
-          </div>
-
           <Route exact path="/" component={AllPolls} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/poll/:pollID" component={Poll} />
