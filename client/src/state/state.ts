@@ -13,14 +13,16 @@ export interface IUser {
   };
 }
 
+export interface IOption {
+  name: string;
+  votes: number;
+}
+
 export interface IPoll {
   _id: string;
   title: string;
   votesCount?: number;
-  options?: Array<{
-    name: string;
-    votes: number;
-  }>;
+  options?: IOption[];
   author?: IUser;
   voters?: IUser[];
 }

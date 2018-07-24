@@ -4,6 +4,7 @@ import { match } from 'react-router-dom';
 import { VictoryPie } from 'victory';
 
 import Spinner from 'src/components/Spinner/Spinner';
+import Options from 'src/components/Options/Options';
 import { TSelectedPoll } from 'src/state/state';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchPoll } from 'src/actions/fetchPoll';
@@ -59,6 +60,8 @@ class Poll extends React.Component<IProps> {
                     labels={d => (d.y ? `${d.x}: ${d.y}` : '')}
                   />
                 </div>
+
+                <Options options={options} />
               </React.Fragment>
             );
           },

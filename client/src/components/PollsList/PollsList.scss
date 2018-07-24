@@ -1,9 +1,8 @@
 @import 'src/styles/variables';
+@import 'src/styles/mixins';
 
 .polls-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+  @include ul-reset();
 }
 
 .list-item {

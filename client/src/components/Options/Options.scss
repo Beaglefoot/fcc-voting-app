@@ -1,0 +1,37 @@
+@import 'src/styles/variables';
+
+.form {
+  text-align: left;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.option {
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.5em;
+  transform: translateY(20%);
+}
+
+.input {
+  border: none;
+  border-bottom: 1px solid $clr_container_fnt;
+  background: inherit;
+  margin: 0.75em;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.plus {
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
