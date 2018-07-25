@@ -1,7 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
-import { IOption } from 'src/state/state';
+import { IOption, TAuth } from 'src/state/state';
 import {
   form,
   optionList,
@@ -14,6 +15,7 @@ import {
 
 interface IProps {
   options: IOption[];
+  auth: TAuth;
   className?: string;
 }
 
@@ -61,9 +63,34 @@ class Options extends React.Component<IProps, IState> {
     this.setState(prevState => ({ isEditing: true }));
   };
 
+  isAuth() {
+    const { auth } = this.props;
+    return auth.fetchStatus === 'done' && auth.data;
+  }
+
+  addOption() {
+    return this.state.isEditing ? (
+      <input
+        className={input}
+        type="text"
+        placeholder="Add option"
+        onKeyPress={this.handleKeyPress}
+        onChange={this.handleChange}
+        ref={e => e && e.focus()}
+      />
+    ) : (
+      <div
+        className={classNames(optionClass, plus)}
+        onClick={this.handlePlusClick}
+      >
+        &#x271A;
+      </div>
+    );
+  }
+
   render() {
     const { options, className } = this.props;
-    const { isEditing, additionalOptions } = this.state;
+    const { additionalOptions } = this.state;
 
     return (
       <form className={classNames(form, className)}>
@@ -77,22 +104,7 @@ class Options extends React.Component<IProps, IState> {
             </li>
           ))}
 
-          {isEditing ? (
-            <input
-              className={input}
-              type="text"
-              placeholder="Add option"
-              onKeyPress={this.handleKeyPress}
-              onChange={this.handleChange}
-            />
-          ) : (
-            <div
-              className={classNames(optionClass, plus)}
-              onClick={this.handlePlusClick}
-            >
-              &#x271A;
-            </div>
-          )}
+          {this.isAuth() && this.addOption()}
         </ul>
 
         <input className={submit} type="submit" value="Submit" />
@@ -101,4 +113,4 @@ class Options extends React.Component<IProps, IState> {
   }
 }
 
-export default Options;
+export default connect(({ auth }: IProps) => ({ auth }))(Options);
