@@ -1,8 +1,14 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { ActionCreator } from 'redux';
 
-import { IOption, TAuth } from 'src/state/state';
+import Spinner from 'src/components/Spinner/Spinner';
+import getFormDataAsObject from 'src/helpers/getFormDataAsObject';
+import { fetchVote } from 'src/actions/fetchVote';
+import cleanVote, { ICleanVote } from 'src/actions/cleanVote';
+import { ThunkActionFunctionCreator } from 'src/actions/actions';
+import { IOption, IState as IGlobalState, TAuth, TVote } from 'src/state/state';
 import {
   form,
   optionList,
@@ -16,6 +22,10 @@ import {
 interface IProps {
   options: IOption[];
   auth: TAuth;
+  pollID: string;
+  vote: TVote;
+  fetchVote: ThunkActionFunctionCreator;
+  cleanVote: ActionCreator<ICleanVote>;
   className?: string;
 }
 
@@ -35,6 +45,10 @@ class Options extends React.Component<IProps, IState> {
       isEditing: false,
       additionalOptions: []
     };
+  }
+
+  componentWillUnmount() {
+    this.props.cleanVote();
   }
 
   handleKeyPress: React.KeyboardEventHandler = e => {
@@ -63,6 +77,13 @@ class Options extends React.Component<IProps, IState> {
     this.setState(prevState => ({ isEditing: true }));
   };
 
+  handleSubmit: React.FormEventHandler = e => {
+    e.preventDefault();
+
+    const formData = getFormDataAsObject(e.target as HTMLFormElement);
+    this.props.fetchVote(`/api/polls/${this.props.pollID}/vote`, formData);
+  };
+
   isAuth() {
     const { auth } = this.props;
     return auth.fetchStatus === 'done' && auth.data;
@@ -89,28 +110,51 @@ class Options extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { options, className } = this.props;
+    const { options, className, vote } = this.props;
     const { additionalOptions } = this.state;
 
     return (
-      <form className={classNames(form, className)}>
-        <h3 className={title}>Vote for:</h3>
+      <form
+        className={classNames(form, className)}
+        onSubmit={this.handleSubmit}
+      >
+        {{
+          done: () => (
+            <React.Fragment>
+              <h3 className={title}>Vote for:</h3>
 
-        <ul className={optionList}>
-          {[...options, ...additionalOptions].map((option, i) => (
-            <li key={i}>
-              <input className={optionClass} type="radio" name="vote" />
-              <label>{option.name}</label>
-            </li>
-          ))}
+              <ul className={optionList}>
+                {[...options, ...additionalOptions].map((option, i) => (
+                  <li key={i}>
+                    <input
+                      className={optionClass}
+                      type="radio"
+                      name="name"
+                      value={option.name}
+                    />
+                    <label>{option.name}</label>
+                  </li>
+                ))}
 
-          {this.isAuth() && this.addOption()}
-        </ul>
+                {this.isAuth() && this.addOption()}
+              </ul>
 
-        <input className={submit} type="submit" value="Submit" />
+              <input className={submit} type="submit" />
+            </React.Fragment>
+          ),
+          pending: () => <Spinner />,
+          error: () => <div>{vote.error}</div>
+        }[vote.fetchStatus]()}
       </form>
     );
   }
 }
 
-export default connect(({ auth }: IProps) => ({ auth }))(Options);
+export default connect(
+  ({ auth, selectedPoll, vote }: IGlobalState) => ({
+    auth,
+    pollID: selectedPoll.data._id,
+    vote
+  }),
+  { fetchVote, cleanVote }
+)(Options);

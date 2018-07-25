@@ -21,7 +21,10 @@ const getNetworkRequestActionCreator: TGetNetworkRequestActionCreator = ({
   config = { method: 'GET' },
   namePrefix,
   payload: { start, error, done }
-}) => (redefinedUrl?: string) => async dispatch => {
+}) => (
+  redefinedUrl?: string,
+  data?: { [prop: string]: any }
+) => async dispatch => {
   let response: any;
 
   const fetchStart = {
@@ -45,7 +48,7 @@ const getNetworkRequestActionCreator: TGetNetworkRequestActionCreator = ({
   dispatch(fetchStart);
 
   try {
-    response = await axios({ ...config, url: redefinedUrl || url });
+    response = await axios({ ...config, url: redefinedUrl || url, data });
   } catch (err) {
     dispatch(fetchError);
     return;

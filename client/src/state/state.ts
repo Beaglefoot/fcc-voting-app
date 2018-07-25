@@ -30,11 +30,13 @@ export interface IPoll {
 export type TAuth = INetworkRequest<IUser | ''>;
 export type TPolls = INetworkRequest<IPoll[]>;
 export type TSelectedPoll = INetworkRequest<IPoll | null>;
+export type TVote = INetworkRequest<null>;
 
 export interface IState {
   auth: TAuth;
   polls: TPolls;
   selectedPoll: TSelectedPoll;
+  vote: TVote;
 }
 
 export const initialState: IState = {
@@ -51,6 +53,12 @@ export const initialState: IState = {
   },
 
   selectedPoll: {
+    fetchStatus: 'done',
+    data: null,
+    error: null
+  },
+
+  vote: {
     fetchStatus: 'done',
     data: null,
     error: null
