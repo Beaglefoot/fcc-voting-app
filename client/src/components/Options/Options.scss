@@ -1,12 +1,23 @@
 @import 'src/styles/variables';
+@import 'src/styles/mixins';
 
 .form {
   text-align: left;
+  background: $clr_form_bg;
+  border-radius: 0.5em;
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
   margin: 0;
   margin-bottom: 0.5rem;
+}
+
+.option-list {
+  @include ul-reset();
+  flex-grow: 2;
 }
 
 .option {
@@ -33,5 +44,18 @@
 
 .plus {
   cursor: pointer;
-  margin-top: 0.25rem;
+  margin: 0 0.5em;
+  text-align: center;
+}
+
+.submit {
+  border: none;
+  border-radius: 5px;
+  background: $clr_container_btn;
+  font-size: inherit;
+  color: $clr_container_btn_fnt;
+  cursor: pointer;
+  height: 2em;
+  width: 100%;
+  padding: 0 2em;
 }

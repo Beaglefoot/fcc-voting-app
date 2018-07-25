@@ -10,7 +10,12 @@ import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchPoll } from 'src/actions/fetchPoll';
 import { IPoll } from 'src/state/state';
 
-import { poll, chart, title as titleClass } from './Poll.scss';
+import {
+  poll,
+  chart,
+  title as titleClass,
+  options as optionsClass
+} from './Poll.scss';
 
 interface IProps {
   match: match<{ pollID: string }>;
@@ -61,7 +66,7 @@ class Poll extends React.Component<IProps> {
                   />
                 </div>
 
-                <Options options={options} />
+                <Options className={optionsClass} options={options} />
               </React.Fragment>
             );
           },

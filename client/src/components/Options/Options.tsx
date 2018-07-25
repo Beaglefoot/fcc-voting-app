@@ -4,14 +4,17 @@ import classNames from 'classnames';
 import { IOption } from 'src/state/state';
 import {
   form,
+  optionList,
   option as optionClass,
   title,
   input,
-  plus
+  plus,
+  submit
 } from './Options.scss';
 
 interface IProps {
   options: IOption[];
+  className?: string;
 }
 
 interface IState {
@@ -45,6 +48,8 @@ class Options extends React.Component<IProps, IState> {
         isEditing: false,
         additionalOptions: [...prevState.additionalOptions, newOption]
       }));
+
+      this.inputValue = '';
     }
   };
 
@@ -57,37 +62,40 @@ class Options extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { options } = this.props;
+    const { options, className } = this.props;
     const { isEditing, additionalOptions } = this.state;
 
     return (
-      <form className={form}>
+      <form className={classNames(form, className)}>
         <h3 className={title}>Vote for:</h3>
 
-        {[...options, ...additionalOptions].map((option, i) => (
-          <React.Fragment key={i}>
-            <input className={optionClass} type="radio" name="vote" />
-            <label>{option.name}</label>
-            <br />
-          </React.Fragment>
-        ))}
+        <ul className={optionList}>
+          {[...options, ...additionalOptions].map((option, i) => (
+            <li key={i}>
+              <input className={optionClass} type="radio" name="vote" />
+              <label>{option.name}</label>
+            </li>
+          ))}
 
-        {isEditing ? (
-          <input
-            className={input}
-            type="text"
-            placeholder="Add option"
-            onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange}
-          />
-        ) : (
-          <div
-            className={classNames(optionClass, plus)}
-            onClick={this.handlePlusClick}
-          >
-            &#x271A;
-          </div>
-        )}
+          {isEditing ? (
+            <input
+              className={input}
+              type="text"
+              placeholder="Add option"
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleChange}
+            />
+          ) : (
+            <div
+              className={classNames(optionClass, plus)}
+              onClick={this.handlePlusClick}
+            >
+              &#x271A;
+            </div>
+          )}
+        </ul>
+
+        <input className={submit} type="submit" value="Submit" />
       </form>
     );
   }
