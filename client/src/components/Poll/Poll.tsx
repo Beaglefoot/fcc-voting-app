@@ -5,6 +5,7 @@ import { VictoryPie } from 'victory';
 
 import Spinner from 'src/components/Spinner/Spinner';
 import Options from 'src/components/Options/Options';
+import Share from 'src/components/Share/Share';
 import { TSelectedPoll } from 'src/state/state';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchPoll } from 'src/actions/fetchPoll';
@@ -14,7 +15,8 @@ import {
   poll,
   chart,
   title as titleClass,
-  options as optionsClass
+  options as optionsClass,
+  share
 } from './Poll.scss';
 
 interface IProps {
@@ -67,6 +69,7 @@ class Poll extends React.Component<IProps> {
                 </div>
 
                 <Options className={optionsClass} options={options} />
+                <Share className={share} size={40} />
               </React.Fragment>
             );
           },

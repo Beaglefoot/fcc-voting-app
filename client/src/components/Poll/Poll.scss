@@ -15,6 +15,11 @@
   grid-area: options;
 }
 
+.share {
+  grid-area: share;
+  margin-top: 3rem;
+}
+
 .poll {
   padding: 3rem;
   padding-top: 2rem;
@@ -22,5 +27,6 @@
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     'title title'
-    'options chart';
+    'options chart'
+    'share share';
 }

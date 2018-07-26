@@ -38,6 +38,7 @@
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-redux": "^6.0.4",
     "@types/react-router-dom": "^4.2.7",
+    "@types/react-share": "^2.1.0",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
     "@types/victory": "^0.9.19",
@@ -91,6 +92,7 @@
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-share": "^2.2.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "victory": "^30.0.0"
