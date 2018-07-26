@@ -10,10 +10,10 @@ const addVote: express.Handler = async (req, res) => {
   try {
     poll = await Poll.findById(pollID);
 
-    const isVoted = poll.voters.some(
-      ({ user, ip }) =>
-        req.user ? req.user.id === user.toString() : ip === getIP(req)
-    );
+    const isVoted = poll.voters.some(({ user, ip }) => {
+      if (req.user) return user && req.user.id === user.toString();
+      return ip === getIP(req);
+    });
 
     if (isVoted)
       throw Object.assign(new Error('Already voted.'), { httpStatusCode: 403 });
