@@ -22,7 +22,11 @@ export const logout = getNetworkRequestActionCreator({
     done: (state: IState, res: AxiosResponse) =>
       R.over(
         R.lensProp('auth'),
-        slice => ({ ...slice, fetchStatus: 'done', data: null }),
+        slice => ({
+          ...slice,
+          fetchStatus: 'done',
+          data: { ip: slice.data.ip }
+        }),
         state
       )
   }

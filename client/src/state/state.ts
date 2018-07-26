@@ -1,12 +1,12 @@
 export interface INetworkRequest<T> {
   fetchStatus: 'done' | 'pending' | 'error';
-  data: T;
+  data?: T;
   error: null | Error;
 }
 
 export interface IUser {
-  _id: string;
   ip: string;
+  _id?: string;
   user?: {
     githubID?: string;
     polls: string[];
@@ -24,10 +24,13 @@ export interface IPoll {
   votesCount?: number;
   options?: IOption[];
   author?: IUser;
-  voters?: IUser[];
+  voters?: Array<{
+    ip: string;
+    user: string;
+  }>;
 }
 
-export type TAuth = INetworkRequest<IUser | ''>;
+export type TAuth = INetworkRequest<IUser>;
 export type TPolls = INetworkRequest<IPoll[]>;
 export type TSelectedPoll = INetworkRequest<IPoll | null>;
 export type TVote = INetworkRequest<null>;
@@ -42,7 +45,9 @@ export interface IState {
 export const initialState: IState = {
   auth: {
     fetchStatus: 'done',
-    data: null,
+    data: {
+      ip: ''
+    },
     error: null
   },
 
@@ -60,7 +65,6 @@ export const initialState: IState = {
 
   vote: {
     fetchStatus: 'done',
-    data: null,
     error: null
   }
 };

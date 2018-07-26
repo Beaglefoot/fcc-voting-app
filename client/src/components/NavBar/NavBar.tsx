@@ -19,7 +19,7 @@ const NavBar = ({ auth, logout }: IProps) => (
     </Link>
 
     <div className={buttons}>
-      {auth.fetchStatus === 'done' && auth.data ? (
+      {auth.fetchStatus === 'done' && auth.data._id ? (
         <React.Fragment>
           <Switch>
             <Route path="/profile" />

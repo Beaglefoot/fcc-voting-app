@@ -8,7 +8,14 @@ import getFormDataAsObject from 'src/helpers/getFormDataAsObject';
 import { fetchVote } from 'src/actions/fetchVote';
 import cleanVote, { ICleanVote } from 'src/actions/cleanVote';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
-import { IOption, IState as IGlobalState, TAuth, TVote } from 'src/state/state';
+import {
+  IOption,
+  IState as IGlobalState,
+  TAuth,
+  TVote,
+  TSelectedPoll,
+  IUser
+} from 'src/state/state';
 import {
   form,
   optionList,
@@ -22,8 +29,8 @@ import {
 interface IProps {
   options: IOption[];
   auth: TAuth;
-  pollID: string;
   vote: TVote;
+  selectedPoll: TSelectedPoll;
   fetchVote: ThunkActionFunctionCreator;
   cleanVote: ActionCreator<ICleanVote>;
   className?: string;
@@ -81,12 +88,25 @@ class Options extends React.Component<IProps, IState> {
     e.preventDefault();
 
     const formData = getFormDataAsObject(e.target as HTMLFormElement);
-    this.props.fetchVote(`/api/polls/${this.props.pollID}/vote`, formData);
+    this.props.fetchVote(
+      `/api/polls/${this.props.selectedPoll.data._id}/vote`,
+      formData
+    );
   };
 
   isAuth() {
     const { auth } = this.props;
-    return auth.fetchStatus === 'done' && auth.data;
+    return auth.fetchStatus === 'done' && auth.data._id;
+  }
+
+  isVoted() {
+    const { selectedPoll, auth } = this.props;
+
+    return selectedPoll.data.voters.some(
+      this.isAuth()
+        ? ({ user }) => user === (auth.data as IUser)._id
+        : ({ ip }) => ip === auth.data.ip
+    );
   }
 
   addOption() {
@@ -119,29 +139,32 @@ class Options extends React.Component<IProps, IState> {
         onSubmit={this.handleSubmit}
       >
         {{
-          done: () => (
-            <React.Fragment>
-              <h3 className={title}>Vote for:</h3>
+          done: () =>
+            !this.isVoted() ? (
+              <React.Fragment>
+                <h3 className={title}>Vote for:</h3>
 
-              <ul className={optionList}>
-                {[...options, ...additionalOptions].map((option, i) => (
-                  <li key={i}>
-                    <input
-                      className={optionClass}
-                      type="radio"
-                      name="name"
-                      value={option.name}
-                    />
-                    <label>{option.name}</label>
-                  </li>
-                ))}
+                <ul className={optionList}>
+                  {[...options, ...additionalOptions].map((option, i) => (
+                    <li key={i}>
+                      <input
+                        className={optionClass}
+                        type="radio"
+                        name="name"
+                        value={option.name}
+                      />
+                      <label>{option.name}</label>
+                    </li>
+                  ))}
 
-                {this.isAuth() && this.addOption()}
-              </ul>
+                  {this.isAuth() && this.addOption()}
+                </ul>
 
-              <input className={submit} type="submit" />
-            </React.Fragment>
-          ),
+                <input className={submit} type="submit" />
+              </React.Fragment>
+            ) : (
+              <div>Thanks for voting!</div>
+            ),
           pending: () => <Spinner />,
           error: () => <div>{vote.error}</div>
         }[vote.fetchStatus]()}
@@ -153,7 +176,7 @@ class Options extends React.Component<IProps, IState> {
 export default connect(
   ({ auth, selectedPoll, vote }: IGlobalState) => ({
     auth,
-    pollID: selectedPoll.data._id,
+    selectedPoll,
     vote
   }),
   { fetchVote, cleanVote }

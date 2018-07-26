@@ -22,7 +22,11 @@ export const fetchUser = getNetworkRequestActionCreator({
     done: (state: IState, res: AxiosResponse) =>
       R.over(
         R.lensProp('auth'),
-        slice => ({ ...slice, fetchStatus: 'done', data: res.data }),
+        slice => ({
+          ...slice,
+          fetchStatus: 'done',
+          data: res.data
+        }),
         state
       )
   }

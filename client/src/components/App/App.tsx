@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import { TAuth } from 'src/state/state';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchUser } from 'src/actions/fetchUser';
 import { container } from './App.scss';
@@ -14,7 +13,6 @@ import providePolls from 'src/hocs/providePolls';
 import Poll from 'src/components/Poll/Poll';
 
 interface IProps {
-  auth: TAuth;
   fetchUser: ThunkActionFunctionCreator;
 }
 
@@ -26,8 +24,6 @@ class App extends React.Component<IProps> {
   }
 
   render() {
-    const { fetchStatus, data, error } = this.props.auth;
-
     return (
       <BrowserRouter>
         <div className={container}>
@@ -42,9 +38,7 @@ class App extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = ({ auth }: IProps) => ({ auth });
-
 export default connect(
-  mapStateToProps,
+  null,
   { fetchUser }
 )(App);
