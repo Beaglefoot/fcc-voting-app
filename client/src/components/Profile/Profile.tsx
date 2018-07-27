@@ -13,7 +13,7 @@ interface IProps {
 let UserPolls: React.ComponentClass;
 
 const Profile = ({ auth: { fetchStatus, data, error } }: IProps) => {
-  if (!UserPolls && data)
+  if (!UserPolls && data._id)
     UserPolls = providePolls(`/api/users/${data._id}/polls`)(PollsList);
 
   if (fetchStatus === 'done' && !data) return <Redirect to="/" />;

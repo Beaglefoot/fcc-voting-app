@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { TPolls } from 'src/state/state';
+import { TPolls, TAuth, IState as IGlobalState } from 'src/state/state';
 import Spinner from 'src/components/Spinner/Spinner';
-import { pollsList, listItem, link } from './PollsList.scss';
+import { pollsList, listItem, link, cross } from './PollsList.scss';
 
 interface IProps {
   polls: TPolls;
+  auth: TAuth;
 }
 
-const PollsList = ({ polls: { fetchStatus, data, error } }: IProps) => (
+const PollsList = ({ polls: { fetchStatus, data, error }, auth }: IProps) => (
   <ul className={pollsList}>
     {{
       done: () =>
@@ -18,6 +20,12 @@ const PollsList = ({ polls: { fetchStatus, data, error } }: IProps) => (
             <Link className={link} to={`/poll/${poll._id}`}>{`${poll.title} (${
               poll.votesCount
             })`}</Link>
+            {auth.data.polls &&
+              auth.data.polls[poll._id] && (
+                <div className={cross} onClick={() => console.log(poll._id)}>
+                  ✖
+                </div>
+              )}
           </li>
         )),
       pending: () => <Spinner />,
@@ -26,4 +34,4 @@ const PollsList = ({ polls: { fetchStatus, data, error } }: IProps) => (
   </ul>
 );
 
-export default PollsList;
+export default connect(({ auth }: IGlobalState) => ({ auth }))(PollsList);

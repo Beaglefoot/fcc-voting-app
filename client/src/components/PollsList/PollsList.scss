@@ -1,6 +1,8 @@
 @import 'src/styles/variables';
 @import 'src/styles/mixins';
 
+$transition_duration: 0.5s;
+
 .polls-list {
   @include ul-reset();
 }
@@ -9,7 +11,8 @@
   background: $clr_pollslist_record_main;
   padding: 0.5rem 0;
   cursor: pointer;
-  transition: background 1s;
+  transition: background $transition_duration;
+  position: relative;
 
   &:not(:nth-of-type(2n)) {
     background: $clr_pollslist_record_alt;
@@ -17,6 +20,11 @@
 
   &:hover {
     background: darken($clr_pollslist_record_main, 10%);
+
+    .cross {
+      visibility: visible;
+      transform: scale(1);
+    }
   }
 }
 
@@ -24,4 +32,14 @@
   display: block;
   color: inherit;
   text-decoration-line: none;
+}
+
+.cross {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  visibility: hidden;
+  transform: scale(0);
+  transition: all $transition_duration;
 }

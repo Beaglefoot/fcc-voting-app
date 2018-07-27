@@ -7,9 +7,9 @@ export interface INetworkRequest<T> {
 export interface IUser {
   ip: string;
   _id?: string;
-  user?: {
-    githubID?: string;
-    polls: string[];
+  githubID?: string;
+  polls?: {
+    [prop: string]: string;
   };
 }
 

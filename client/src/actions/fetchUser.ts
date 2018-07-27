@@ -9,6 +9,7 @@ export const fetchUser = getNetworkRequestActionCreator({
   payload: {
     start: (state: IState) =>
       R.assocPath(['auth', 'fetchStatus'], 'pending', state),
+
     error: (state: IState) =>
       R.over(
         R.lensProp('auth'),
@@ -19,13 +20,14 @@ export const fetchUser = getNetworkRequestActionCreator({
         }),
         state
       ),
+
     done: (state: IState, res: AxiosResponse) =>
       R.over(
         R.lensProp('auth'),
         slice => ({
           ...slice,
           fetchStatus: 'done',
-          data: res.data
+          data: R.over(R.lensProp('polls'), R.invertObj, res.data)
         }),
         state
       )
