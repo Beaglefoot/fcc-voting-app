@@ -2,21 +2,34 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { TPolls, TAuth, IState as IGlobalState } from 'src/state/state';
+import {
+  TPolls,
+  TAuth,
+  IState as IGlobalState,
+  IPollsDeletion
+} from 'src/state/state';
 import Spinner from 'src/components/Spinner/Spinner';
-import { pollsList, listItem, link, cross } from './PollsList.scss';
+import {
+  pollsList,
+  listItem,
+  link,
+  cross,
+  smallSpinner
+} from './PollsList.scss';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 
 interface IProps {
   polls: TPolls;
   auth: TAuth;
   deletePoll: ThunkActionFunctionCreator;
+  pollDeletion: IPollsDeletion;
 }
 
 const PollsList = ({
   polls: { fetchStatus, data, error },
   auth,
-  deletePoll
+  deletePoll,
+  pollDeletion
 }: IProps) => (
   <ul className={pollsList}>
     {{
@@ -28,7 +41,10 @@ const PollsList = ({
             </Link>
 
             {auth.data.polls &&
-              auth.data.polls[poll._id] && (
+              auth.data.polls[poll._id] &&
+              (pollDeletion[poll._id] ? (
+                <Spinner className={smallSpinner} />
+              ) : (
                 <div
                   className={cross}
                   onClick={() => {
@@ -37,7 +53,7 @@ const PollsList = ({
                 >
                   ✖
                 </div>
-              )}
+              ))}
           </li>
         )),
       pending: () => <Spinner />,

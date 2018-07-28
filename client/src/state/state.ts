@@ -34,15 +34,16 @@ export type TAuth = INetworkRequest<IUser>;
 export type TPolls = INetworkRequest<IPoll[]>;
 export type TSelectedPoll = INetworkRequest<IPoll | null>;
 export type TVote = INetworkRequest<never>;
+export interface IPollsDeletion {
+  [pollID: string]: INetworkRequest<never>;
+}
 
 export interface IState {
   auth: TAuth;
   polls: TPolls;
   selectedPoll: TSelectedPoll;
   vote: TVote;
-  pollDeletion: {
-    [pollID: string]: INetworkRequest<never>;
-  };
+  pollDeletion: IPollsDeletion;
 }
 
 export const initialState: IState = {
