@@ -12,7 +12,6 @@ const cleanVote: ActionCreator<ICleanVote> = () => ({
     ...state,
     vote: {
       fetchStatus: 'done',
-      data: null,
       error: null
     }
   })

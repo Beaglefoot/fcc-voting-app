@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { fetchPolls } from 'src/actions/fetchPolls';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { TPolls } from 'src/state/state';
+import { deletePoll } from 'src/actions/deletePoll';
 
 interface IPropsInjected {
   polls: TPolls;
+  deletePoll: ThunkActionFunctionCreator;
 }
 
 interface IPropsExternal extends IPropsInjected {
@@ -24,13 +26,19 @@ const providePolls = (url: string) => (
     }
 
     render() {
-      return <Component {...this.props} polls={this.props.polls} />;
+      return (
+        <Component
+          {...this.props}
+          polls={this.props.polls}
+          deletePoll={this.props.deletePoll}
+        />
+      );
     }
   }
 
   return connect(
     ({ polls }: IPropsExternal) => ({ polls }),
-    { fetchPolls }
+    { fetchPolls, deletePoll }
   )(WithPolls);
 };
 
