@@ -1,0 +1,47 @@
+@import 'src/styles/variables';
+
+.alert {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: #fff;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  padding: 3rem 4rem;
+  transform: translateY(-10vh);
+}
+
+.message {
+  font-weight: bold;
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+
+.button {
+  margin: 1.5rem 1rem 0 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  width: 6rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+.ok {
+  background: $clr_danger;
+}
+
+.cancel {
+  background: $clr_info;
+}
