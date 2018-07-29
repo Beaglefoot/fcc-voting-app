@@ -48,7 +48,7 @@ $transition_duration: 0.5s;
   transition: transform $transition_duration;
 
   &:hover {
-    color: tomato;
+    color: $clr_danger;
     transition: color $transition_duration / 2 ease-out;
   }
 }
