@@ -9,7 +9,8 @@ import {
   fieldsList,
   field,
   input,
-  label
+  label,
+  line
 } from './CreatePoll.scss';
 
 interface IProps {
@@ -46,6 +47,7 @@ class CreatePoll extends React.Component<IProps, IState> {
             <li key={i} className={field}>
               <input type="text" name="name" required className={input} />
               <label className={label}>{i ? 'Answer' : 'Title'}</label>
+              <div className={line} />
             </li>
           ))}
         </ul>

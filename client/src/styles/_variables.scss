@@ -10,6 +10,11 @@ $clr_spinner: $clr_container_fnt;
 $clr_form_bg: #ddd;
 $clr_danger: tomato;
 $clr_info: deepskyblue;
+$clr_input_border: $clr_container_fnt;
 
 $padding_main_components: 2rem 3rem 3rem 3rem;
 $margin_title_main_components: 0 0 2rem 0;
+
+$input_deemphasize_mult: 0.8;
+
+$duration_input_transition: 0.5s;

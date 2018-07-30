@@ -2,12 +2,12 @@
 
 .input {
   border: none;
-  border-bottom: 1px solid rgba($clr_container_fnt, 0.5);
+  border-bottom: 1px solid rgba($clr_input_border, $input_deemphasize_mult);
   background: inherit;
   color: inherit;
   font-size: inherit;
   font-family: inherit;
-  transition: border-bottom 0.5s;
+  transition: border-bottom $duration_input_transition;
 
   &:focus {
     outline: none;

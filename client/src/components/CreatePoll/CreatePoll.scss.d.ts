@@ -4,3 +4,4 @@ export const fieldsList: string;
 export const field: string;
 export const input: string;
 export const label: string;
+export const line: string;
