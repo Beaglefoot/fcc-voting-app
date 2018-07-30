@@ -1,0 +1,44 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.form {
+  padding: $padding_main_components;
+}
+
+.title {
+  margin: $margin_title_main_components;
+}
+
+.fields-list {
+  @include ul-reset();
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.field {
+  margin-top: 1.25rem;
+  display: block;
+  position: relative;
+  width: 20rem;
+}
+
+.input {
+  composes: input from 'src/styles/input.scss';
+  width: inherit;
+
+  &:focus ~ .label,
+  &:valid ~ .label {
+    transform: translateY(-100%);
+    font-size: 0.875rem;
+    font-weight: bold;
+    opacity: 1;
+  }
+}
+
+.label {
+  position: absolute;
+  opacity: 0.5;
+  left: 0;
+  transition: all 0.5s;
+}

@@ -9,6 +9,7 @@ import { container } from './App.scss';
 import NavBar from 'src/components/NavBar/NavBar';
 import PollsList from 'src/components/PollsList/PollsList';
 import Profile from 'src/components/Profile/Profile';
+import CreatePoll from 'src/components/CreatePoll/CreatePoll';
 import providePolls from 'src/hocs/providePolls';
 import Poll from 'src/components/Poll/Poll';
 
@@ -31,6 +32,7 @@ class App extends React.Component<IProps> {
 
           <Route exact path="/" component={AllPolls} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/create_poll" component={CreatePoll} />
           <Route exact path="/poll/:pollID" component={Poll} />
         </div>
       </BrowserRouter>

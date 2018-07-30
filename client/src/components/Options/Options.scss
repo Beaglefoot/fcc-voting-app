@@ -30,18 +30,9 @@
 }
 
 .input {
-  border: none;
-  border-bottom: 1px solid $clr_container_fnt;
-  background: inherit;
+  composes: input from 'src/styles/input.scss';
   margin: 0.75em;
   margin-bottom: 0;
-  color: inherit;
-  font-size: inherit;
-  font-family: inherit;
-
-  &:focus {
-    outline: none;
-  }
 }
 
 .plus {

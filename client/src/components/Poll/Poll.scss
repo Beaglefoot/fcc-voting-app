@@ -1,6 +1,7 @@
+@import 'src/styles/variables';
+
 .title {
-  margin: 0;
-  margin-bottom: 2rem;
+  margin: $margin_title_main_components;
   grid-area: title;
 }
 
@@ -21,8 +22,7 @@
 }
 
 .poll {
-  padding: 3rem;
-  padding-top: 2rem;
+  padding: $padding_main_components;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:

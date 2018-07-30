@@ -16,7 +16,8 @@ const Profile = ({ auth: { fetchStatus, data, error } }: IProps) => {
   if (!UserPolls && data._id)
     UserPolls = providePolls(`/api/users/${data._id}/polls`)(PollsList);
 
-  if (fetchStatus === 'done' && !data) return <Redirect to="/" />;
+  if (fetchStatus === 'done' && data.ip && !data._id)
+    return <Redirect to="/" />;
   if (fetchStatus === 'error') return <div>{error}</div>;
   return UserPolls ? <UserPolls /> : <div />;
 };

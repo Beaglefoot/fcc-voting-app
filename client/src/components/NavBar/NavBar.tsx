@@ -22,6 +22,17 @@ const NavBar = ({ auth, logout }: IProps) => (
       {auth.fetchStatus === 'done' && auth.data._id ? (
         <React.Fragment>
           <Switch>
+            <Route path="/create_poll" />
+            <Route
+              render={() => (
+                <Link to="/create_poll" className={button}>
+                  Create Poll
+                </Link>
+              )}
+            />
+          </Switch>
+
+          <Switch>
             <Route path="/profile" />
             <Route
               render={() => (

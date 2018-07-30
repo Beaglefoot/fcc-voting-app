@@ -1,0 +1,16 @@
+@import 'src/styles/variables';
+
+.input {
+  border: none;
+  border-bottom: 1px solid rgba($clr_container_fnt, 0.5);
+  background: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  transition: border-bottom 0.5s;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid $clr_container_fnt;
+  }
+}
