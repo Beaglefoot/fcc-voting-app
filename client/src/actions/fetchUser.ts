@@ -27,7 +27,18 @@ export const fetchUser = getNetworkRequestActionCreator({
         slice => ({
           ...slice,
           fetchStatus: 'done',
-          data: R.over(R.lensProp('polls'), R.invertObj, res.data)
+          data: R.over(
+            R.lensProp('polls'),
+            polls =>
+              polls.reduce(
+                (obj: { [prop: string]: string }, id: string) => ({
+                  ...obj,
+                  [id]: id
+                }),
+                {}
+              ),
+            res.data
+          )
         }),
         state
       )

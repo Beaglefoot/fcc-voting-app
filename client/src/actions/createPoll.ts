@@ -23,10 +23,17 @@ export const createPoll = getNetworkRequestActionCreator({
       ),
 
     done: (state: IState, res: AxiosResponse) =>
-      R.over(
-        R.lensProp('pollCreation'),
-        slice => ({ ...slice, fetchStatus: 'done', data: res.data }),
-        state
-      )
+      R.compose(
+        R.over(R.lensPath(['auth', 'data', 'polls']), slice => ({
+          ...slice,
+          [res.data._id]: res.data._id
+        })),
+
+        R.over(R.lensProp('pollCreation'), slice => ({
+          ...slice,
+          fetchStatus: 'done',
+          data: res.data
+        }))
+      )(state)
   }
 });
