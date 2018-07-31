@@ -1,10 +1,14 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { TAuth } from 'src/state/state';
+import { createPoll } from 'src/actions/createPoll';
+import { ThunkActionFunctionCreator } from 'src/actions/actions';
+import Spinner from 'src/components/Spinner/Spinner';
+import { TAuth, TPollCreation, IState as IGlobalState } from 'src/state/state';
 import {
-  createPoll,
+  createPoll as createPollClass,
   form,
   title,
   fieldsList,
@@ -12,11 +16,14 @@ import {
   input,
   label,
   line,
-  plus
+  plus,
+  button
 } from './CreatePoll.scss';
 
 interface IProps {
   auth: TAuth;
+  pollCreation: TPollCreation;
+  createPoll: ThunkActionFunctionCreator;
 }
 
 interface IState {
@@ -32,42 +39,84 @@ class CreatePoll extends React.Component<IProps, IState> {
     };
   }
 
-  addField = () =>
+  addField: React.MouseEventHandler = e => {
+    e.preventDefault();
     this.setState(({ numOfFields }) => ({ numOfFields: numOfFields + 1 }));
+  };
+
+  handleSubmit: React.FormEventHandler = e => {
+    e.preventDefault();
+
+    const formData = Array.from(
+      new FormData(e.target as HTMLFormElement).entries()
+    ).reduce(
+      (result, [name, value]) => {
+        if (name === 'options') result.options.push({ name: value });
+        else if (name === 'title') result.title = value as string;
+        return result;
+      },
+      { title: '', options: [] }
+    );
+
+    this.props.createPoll(null, formData);
+  };
 
   render() {
-    const {
-      auth: { fetchStatus, data, error }
-    } = this.props;
+    const { auth, pollCreation } = this.props;
 
-    if (fetchStatus === 'done' && data.ip && !data._id)
+    if (auth.fetchStatus === 'done' && auth.data.ip && !auth.data._id)
       return <Redirect to="/" />;
-    if (fetchStatus === 'error') return <div>{error}</div>;
+    if (auth.fetchStatus === 'error') return <div>{auth.error}</div>;
 
     return (
-      <div className={createPoll}>
+      <div className={createPollClass}>
         <h2 className={title}>Create A New Poll</h2>
 
-        <form className={form}>
-          <ul className={fieldsList}>
-            {Array.from({ length: this.state.numOfFields }).map((_, i) => (
-              <li key={i} className={field}>
-                <input type="text" name="name" required className={input} />
-                <label className={label}>{i ? 'Answer' : 'Title'}</label>
-                <div className={line} />
-              </li>
-            ))}
+        {{
+          done: () => (
+            <form className={form} onSubmit={this.handleSubmit}>
+              <ul className={fieldsList}>
+                {Array.from({ length: this.state.numOfFields }).map((_, i) => (
+                  <li key={i} className={field}>
+                    <input
+                      type="text"
+                      name={i ? 'options' : 'title'}
+                      required
+                      className={input}
+                    />
+                    <label className={label}>{i ? 'Answer' : 'Title'}</label>
+                    <div className={line} />
+                  </li>
+                ))}
 
-            <li className={field}>
-              <div className={plus} onClick={this.addField}>
-                &#x271A;
-              </div>
-            </li>
-          </ul>
-        </form>
+                <li className={field}>
+                  <button
+                    className={classNames(button, plus)}
+                    onClick={this.addField}
+                  >
+                    &#x271A;
+                  </button>
+                </li>
+
+                <li className={field}>
+                  <input type="submit" className={button} />
+                </li>
+              </ul>
+            </form>
+          ),
+
+          pending: () => <Spinner />,
+          error: () => <div>{pollCreation.error}</div>
+        }[pollCreation.fetchStatus]()}
       </div>
     );
   }
 }
 
-export default connect(({ auth }: IProps) => ({ auth }))(CreatePoll);
+export default connect(
+  ({ auth, pollCreation }: IGlobalState) => ({
+    auth,
+    pollCreation
+  }),
+  { createPoll }
+)(CreatePoll);

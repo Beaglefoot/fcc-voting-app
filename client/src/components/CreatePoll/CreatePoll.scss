@@ -66,8 +66,9 @@
 }
 
 .plus {
-  cursor: pointer;
-  background: darken($clr_form_bg, 9%);
-  padding: 0.5rem;
-  border-radius: 5px;
+  background: lighten($clr_container_btn, 10%);
+}
+
+.button {
+  composes: button from 'src/styles/button.scss';
 }

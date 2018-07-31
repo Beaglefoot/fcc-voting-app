@@ -39,13 +39,5 @@
 }
 
 .submit {
-  border: none;
-  border-radius: 5px;
-  background: $clr_container_btn;
-  font-size: inherit;
-  color: $clr_container_btn_fnt;
-  cursor: pointer;
-  height: 2em;
-  width: 100%;
-  padding: 0 2em;
+  composes: button from 'src/styles/button.scss';
 }
