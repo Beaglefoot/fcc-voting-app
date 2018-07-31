@@ -1,8 +1,14 @@
 @import 'src/styles/variables';
 @import 'src/styles/mixins';
 
-.form {
+.create-poll {
   padding: $padding_main_components;
+}
+
+.form {
+  composes: form from 'src/styles/form.scss';
+  width: 24rem;
+  margin: 0 auto;
 }
 
 .title {
@@ -57,4 +63,11 @@
   bottom: 0;
   background: $clr_input_border;
   transition: transform $duration_input_transition / 2 ease-out;
+}
+
+.plus {
+  cursor: pointer;
+  background: darken($clr_form_bg, 9%);
+  padding: 0.5rem;
+  border-radius: 5px;
 }

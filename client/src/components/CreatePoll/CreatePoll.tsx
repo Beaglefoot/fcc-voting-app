@@ -4,13 +4,15 @@ import { Redirect } from 'react-router-dom';
 
 import { TAuth } from 'src/state/state';
 import {
+  createPoll,
   form,
   title,
   fieldsList,
   field,
   input,
   label,
-  line
+  line,
+  plus
 } from './CreatePoll.scss';
 
 interface IProps {
@@ -30,6 +32,9 @@ class CreatePoll extends React.Component<IProps, IState> {
     };
   }
 
+  addField = () =>
+    this.setState(({ numOfFields }) => ({ numOfFields: numOfFields + 1 }));
+
   render() {
     const {
       auth: { fetchStatus, data, error }
@@ -40,18 +45,27 @@ class CreatePoll extends React.Component<IProps, IState> {
     if (fetchStatus === 'error') return <div>{error}</div>;
 
     return (
-      <form className={form}>
+      <div className={createPoll}>
         <h2 className={title}>Create A New Poll</h2>
-        <ul className={fieldsList}>
-          {Array.from({ length: this.state.numOfFields }).map((_, i) => (
-            <li key={i} className={field}>
-              <input type="text" name="name" required className={input} />
-              <label className={label}>{i ? 'Answer' : 'Title'}</label>
-              <div className={line} />
+
+        <form className={form}>
+          <ul className={fieldsList}>
+            {Array.from({ length: this.state.numOfFields }).map((_, i) => (
+              <li key={i} className={field}>
+                <input type="text" name="name" required className={input} />
+                <label className={label}>{i ? 'Answer' : 'Title'}</label>
+                <div className={line} />
+              </li>
+            ))}
+
+            <li className={field}>
+              <div className={plus} onClick={this.addField}>
+                &#x271A;
+              </div>
             </li>
-          ))}
-        </ul>
-      </form>
+          </ul>
+        </form>
+      </div>
     );
   }
 }
