@@ -33,7 +33,7 @@ class App extends React.Component<IProps> {
           <Route exact path="/" component={AllPolls} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_poll" component={CreatePoll} />
-          <Route exact path="/poll/:pollID" component={Poll} />
+          <Route exact path="/polls/:pollID" component={Poll} />
         </div>
       </BrowserRouter>
     );

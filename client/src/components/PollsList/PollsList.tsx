@@ -69,7 +69,7 @@ class PollsList extends React.Component<IProps, IState> {
           done: () =>
             data.map(poll => (
               <li className={listItem} key={poll._id}>
-                <Link className={link} to={`/poll/${poll._id}`}>
+                <Link className={link} to={`/polls/${poll._id}`}>
                   {`${poll.title} (${poll.votesCount})`}
                 </Link>
 

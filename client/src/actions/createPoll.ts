@@ -32,7 +32,9 @@ export const createPoll = getNetworkRequestActionCreator({
         R.over(R.lensProp('pollCreation'), slice => ({
           ...slice,
           fetchStatus: 'done',
-          data: res.data
+          data: {
+            _id: res.data._id
+          }
         }))
       )(state)
   }

@@ -2,6 +2,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { RouterProps } from 'react-router';
+import { AxiosResponse } from 'axios';
 
 import { createPoll } from 'src/actions/createPoll';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
@@ -20,7 +22,7 @@ import {
   button
 } from './CreatePoll.scss';
 
-interface IProps {
+interface IProps extends RouterProps {
   auth: TAuth;
   pollCreation: TPollCreation;
   createPoll: ThunkActionFunctionCreator;
@@ -58,7 +60,11 @@ class CreatePoll extends React.Component<IProps, IState> {
       { title: '', options: [] }
     );
 
-    this.props.createPoll(null, formData);
+    const redirectToNewPoll = (res: AxiosResponse) => {
+      if (res.data._id) this.props.history.push(`/polls/${res.data._id}`);
+    };
+
+    this.props.createPoll(null, formData, redirectToNewPoll);
   };
 
   render() {
