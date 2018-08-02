@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as R from 'ramda';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -19,7 +20,8 @@ import {
   label,
   line,
   plus,
-  button
+  button,
+  invalid
 } from './CreatePoll.scss';
 
 interface IProps extends RouterProps {
@@ -30,15 +32,26 @@ interface IProps extends RouterProps {
 
 interface IState {
   numOfFields: number;
+  invalidFields: string[];
 }
 
 class CreatePoll extends React.Component<IProps, IState> {
+  titleInputRef: React.RefObject<HTMLInputElement>;
+  formRef: React.RefObject<HTMLFormElement>;
+
   constructor(props: IProps) {
     super(props);
 
+    this.titleInputRef = React.createRef();
+    this.formRef = React.createRef();
     this.state = {
-      numOfFields: 3
+      numOfFields: 3,
+      invalidFields: []
     };
+  }
+
+  componentDidMount() {
+    this.titleInputRef.current.focus();
   }
 
   addField: React.MouseEventHandler = e => {
@@ -67,8 +80,55 @@ class CreatePoll extends React.Component<IProps, IState> {
     this.props.createPoll(null, formData, redirectToNewPoll);
   };
 
+  handleValidation = (
+    index: number
+  ): React.FocusEventHandler<HTMLInputElement> => e => {
+    if (!index && e.target.value.length < 3) {
+      this.setState(
+        R.assocPath(
+          ['invalidFields', index],
+          'Title must be at least 3 characters long'
+        )
+      );
+      return;
+    }
+
+    if (!e.target.value) {
+      this.setState(
+        R.assocPath(['invalidFields', index], 'Field must be non-empty')
+      );
+      return;
+    }
+
+    const formValues = [...new FormData(this.formRef.current).values()];
+
+    interface IIndicesByFields {
+      [field: string]: number[];
+    }
+
+    const indicesByFields = formValues
+      .filter(field => field)
+      .reduce<IIndicesByFields>((collection, field: string, i) => {
+        if (!collection[field]) collection[field] = [];
+        collection[field].push(i);
+        return collection;
+      }, {});
+
+    const invalidFields = Object.values(indicesByFields).reduce<string[]>(
+      (invalidFields, indices) => {
+        const message = indices.length > 1 ? 'Field must be unique' : '';
+        indices.forEach(i => (invalidFields[i] = message));
+        return invalidFields;
+      },
+      [...this.state.invalidFields]
+    );
+
+    this.setState(R.assoc('invalidFields', invalidFields));
+  };
+
   render() {
     const { auth, pollCreation } = this.props;
+    const { invalidFields } = this.state;
 
     if (auth.fetchStatus === 'done' && auth.data.ip && !auth.data._id)
       return <Redirect to="/" />;
@@ -80,7 +140,11 @@ class CreatePoll extends React.Component<IProps, IState> {
 
         {{
           done: () => (
-            <form className={form} onSubmit={this.handleSubmit}>
+            <form
+              className={form}
+              onSubmit={this.handleSubmit}
+              ref={this.formRef}
+            >
               <ul className={fieldsList}>
                 {Array.from({ length: this.state.numOfFields }).map((_, i) => (
                   <li key={i} className={field}>
@@ -88,9 +152,14 @@ class CreatePoll extends React.Component<IProps, IState> {
                       type="text"
                       name={i ? 'options' : 'title'}
                       required
-                      className={input}
+                      className={classNames(input, invalidFields[i] && invalid)}
+                      ref={!i && this.titleInputRef}
+                      onBlur={this.handleValidation(i)}
                     />
-                    <label className={label}>{i ? 'Answer' : 'Title'}</label>
+                    <label className={label}>
+                      {i ? 'Answer' : 'Title'}
+                      {invalidFields[i] ? ` (${invalidFields[i]})` : ''}
+                    </label>
                     <div className={line} />
                   </li>
                 ))}

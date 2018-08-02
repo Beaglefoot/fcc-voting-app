@@ -65,6 +65,19 @@
   transition: transform $duration_input_transition / 2 ease-out;
 }
 
+.invalid {
+  color: $clr_danger;
+  border-color: $clr_danger;
+
+  & ~ .label {
+    color: $clr_danger;
+  }
+
+  & ~ .line {
+    background: $clr_danger;
+  }
+}
+
 .plus {
   background: lighten($clr_container_btn, 10%);
 }
