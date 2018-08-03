@@ -1,18 +1,27 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { RouterProps } from 'react-router';
 
 import { TAuth } from 'src/state/state';
 import { logout } from 'src/actions/logout';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
-import { navbar, header, buttons, button } from './NavBar.scss';
+import { navbar, header, buttons, button, active } from './NavBar.scss';
 
-interface IProps {
+interface IProps extends RouterProps {
   auth: TAuth;
   logout: ThunkActionFunctionCreator;
 }
 
-const NavBar = ({ auth, logout }: IProps) => (
+const routesMap = {
+  createPoll: { url: '/create_poll', text: 'Create Poll' },
+  profile: { url: '/profile', text: 'My Polls' },
+  logout: { url: '/api/logout', text: 'Logout' },
+  signin: { url: '/auth/github', text: 'Sign in with GitHub' }
+};
+
+const NavBar = ({ auth, logout, history }: IProps) => (
   <div className={navbar}>
     <Link to="/" className={header}>
       fcc-voting-app
@@ -21,42 +30,40 @@ const NavBar = ({ auth, logout }: IProps) => (
     <div className={buttons}>
       {auth.fetchStatus === 'done' && auth.data._id ? (
         <React.Fragment>
-          <Switch>
-            <Route path="/create_poll" />
-            <Route
-              render={() => (
-                <Link to="/create_poll" className={button}>
-                  Create Poll
-                </Link>
-              )}
-            />
-          </Switch>
+          <Link
+            to={routesMap.createPoll.url}
+            className={classNames(
+              button,
+              history.location.pathname === routesMap.createPoll.url && active
+            )}
+          >
+            {routesMap.createPoll.text}
+          </Link>
 
-          <Switch>
-            <Route path="/profile" />
-            <Route
-              render={() => (
-                <Link to="/profile" className={button}>
-                  Profile
-                </Link>
-              )}
-            />
-          </Switch>
+          <Link
+            to={routesMap.profile.url}
+            className={classNames(
+              button,
+              history.location.pathname === routesMap.profile.url && active
+            )}
+          >
+            {routesMap.profile.text}
+          </Link>
 
           <a
             className={button}
-            href="/api/logout"
+            href={routesMap.logout.url}
             onClick={e => {
               e.preventDefault();
               logout();
             }}
           >
-            Logout
+            {routesMap.logout.text}
           </a>
         </React.Fragment>
       ) : (
-        <a className={button} href="/auth/github">
-          Sign in with GitHub
+        <a className={button} href={routesMap.signin.url}>
+          {routesMap.signin.text}
         </a>
       )}
     </div>

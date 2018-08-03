@@ -43,8 +43,9 @@
   &:before {
     content: '';
     height: 1.25rem;
-    border-left: 1px solid darken($clr_navbar_btn, 10%);
+    border-left: 1px solid $clr_navbar_btn_hover;
     position: absolute;
+    transition: opacity $duration_navbar_button_transition;
   }
 
   &:after {
@@ -57,7 +58,6 @@
     left: -1px;
     height: 100%;
     opacity: 0;
-    transition: opacity $duration_navbar_button_transition;
   }
 
   &:last-of-type:after,
@@ -65,11 +65,24 @@
     display: none;
   }
 
-  &:hover {
-    background: darken($clr_navbar_btn, 10%);
+  &:not(.active):hover {
+    background: $clr_navbar_btn_hover;
 
     &:before {
       opacity: 1;
     }
+  }
+}
+
+.active {
+  background: $clr_container_bg;
+
+  &:after {
+    opacity: 0;
+  }
+
+  &:before {
+    border-color: $clr_container_bg;
+    opacity: 1;
   }
 }

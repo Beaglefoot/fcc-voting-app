@@ -8,14 +8,14 @@ $transition_duration: 0.5s;
 }
 
 .list-item {
-  background: $clr_pollslist_record_main;
+  background: $clr_pollslist_record_alt;
   padding: 0.5rem 0;
   cursor: pointer;
   transition: background $transition_duration;
   position: relative;
 
   &:not(:nth-of-type(2n)) {
-    background: $clr_pollslist_record_alt;
+    background: $clr_pollslist_record_main;
   }
 
   &:hover {
