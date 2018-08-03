@@ -32,9 +32,44 @@
   color: $clr_container_fnt;
   background: $clr_navbar_btn;
   min-width: 3rem;
-  margin-left: 0.5rem;
   cursor: pointer;
   color: inherit;
   text-decoration: none;
   padding: 0 0.75rem;
+  position: relative;
+  transition: background $duration_navbar_button_transition;
+
+  &:after,
+  &:before {
+    content: '';
+    height: 1.25rem;
+    border-left: 1px solid darken($clr_navbar_btn, 10%);
+    position: absolute;
+  }
+
+  &:after {
+    right: 0;
+  }
+
+  // To have nice transition effect :before element
+  // overlaps :after element of the previous button.
+  &:before {
+    left: -1px;
+    height: 100%;
+    opacity: 0;
+    transition: opacity $duration_navbar_button_transition;
+  }
+
+  &:last-of-type:after,
+  &:first-of-type:before {
+    display: none;
+  }
+
+  &:hover {
+    background: darken($clr_navbar_btn, 10%);
+
+    &:before {
+      opacity: 1;
+    }
+  }
 }
