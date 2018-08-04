@@ -51,6 +51,7 @@
   opacity: $input_deemphasize_mult;
   left: 0;
   transition: all $duration_input_transition;
+  pointer-events: none;
 }
 
 .line {
