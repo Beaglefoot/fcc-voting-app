@@ -10,4 +10,9 @@
   height: 2em;
   width: 100%;
   padding: 0 2em;
+  transition: filter $duration_container_button_transition;
+
+  &:hover {
+    filter: brightness(1.07);
+  }
 }

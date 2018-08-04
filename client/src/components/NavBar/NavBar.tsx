@@ -7,7 +7,15 @@ import { RouterProps } from 'react-router';
 import { TAuth } from 'src/state/state';
 import { logout } from 'src/actions/logout';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
-import { navbar, header, buttons, button, active } from './NavBar.scss';
+import {
+  navbar,
+  header,
+  buttons,
+  button,
+  active,
+  iconContainer
+} from './NavBar.scss';
+import githubIcon from 'assets/github-icon.svg';
 
 interface IProps extends RouterProps {
   auth: TAuth;
@@ -18,7 +26,7 @@ const routesMap = {
   createPoll: { url: '/create_poll', text: 'Create Poll' },
   profile: { url: '/profile', text: 'My Polls' },
   logout: { url: '/api/logout', text: 'Logout' },
-  signin: { url: '/auth/github', text: 'Sign in with GitHub' }
+  signin: { url: '/auth/github', text: 'Sign in with' }
 };
 
 const NavBar = ({ auth, logout, history }: IProps) => (
@@ -64,6 +72,10 @@ const NavBar = ({ auth, logout, history }: IProps) => (
       ) : (
         <a className={button} href={routesMap.signin.url}>
           {routesMap.signin.text}
+          <div
+            className={iconContainer}
+            dangerouslySetInnerHTML={{ __html: githubIcon }}
+          />
         </a>
       )}
     </div>
