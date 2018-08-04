@@ -1,0 +1,14 @@
+@import 'src/styles/variables';
+
+.not-found {
+  padding: $padding_main_components;
+}
+
+.err-code {
+  font-size: 256px;
+  line-height: 1;
+}
+
+.text {
+  font-size: 48px;
+}

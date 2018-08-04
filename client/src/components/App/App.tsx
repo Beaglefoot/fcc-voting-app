@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 import { fetchUser } from 'src/actions/fetchUser';
@@ -12,6 +12,7 @@ import Profile from 'src/components/Profile/Profile';
 import CreatePoll from 'src/components/CreatePoll/CreatePoll';
 import providePolls from 'src/hocs/providePolls';
 import Poll from 'src/components/Poll/Poll';
+import NotFound from 'src/components/NotFound/NotFound';
 
 interface IProps {
   fetchUser: ThunkActionFunctionCreator;
@@ -30,10 +31,13 @@ class App extends React.Component<IProps> {
         <div className={container}>
           <Route component={NavBar} />
 
-          <Route exact path="/" component={AllPolls} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/create_poll" component={CreatePoll} />
-          <Route exact path="/polls/:pollID" component={Poll} />
+          <Switch>
+            <Route exact path="/" component={AllPolls} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/create_poll" component={CreatePoll} />
+            <Route path="/polls/:pollID" component={Poll} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </BrowserRouter>
     );
