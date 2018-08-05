@@ -1,0 +1,26 @@
+@import 'src/styles/variables';
+
+$clr_footer_link: $clr_container_fnt;
+$clr_footer_link_hover: #fff;
+$clr_footer_text: $clr_container_fnt;
+
+.footer {
+  font-family: 'VT323';
+  font-size: 14px;
+  color: rgba($clr_footer_text, 0.8);
+  text-align: center;
+  padding: 0.2em;
+  background: rgba(#000, 0.1);
+}
+
+.link {
+  text-decoration: none;
+  color: rgba($clr_footer_link, 0.8);
+  outline: none;
+  transition: all 0.3s;
+
+  &:hover {
+    color: $clr_footer_link_hover;
+    text-shadow: 0 0 3px darken($clr_footer_link, 50%);
+  }
+}

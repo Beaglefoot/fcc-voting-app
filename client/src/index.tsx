@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
 import reducer from 'src/reducers/reducer';
-import App from './components/App/App';
+import App from 'src/components/App/App';
+import Footer from 'src/components/Footer/Footer';
 
 import 'src/styles/global.scss';
 
@@ -34,3 +35,5 @@ if (module.hot) {
     render(App);
   });
 }
+
+new Footer().appendToDocument();
