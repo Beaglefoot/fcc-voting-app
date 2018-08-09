@@ -6,9 +6,10 @@
   "scripts": {
     "precommit": "lint-staged",
     "env": "env $(cat .env)",
-    "start": "yarn env node dist/index.js",
+    "start": "yarn build && ([[ $NODE_ENV == 'production' ]] && node dist/index.js || yarn env node dist/index.js)",
     "serve": "yarn env nodemon -i src dist/",
     "debug": "yarn env node --inspect-brk dist",
+    "build": "tsc",
     "build:live": "tsc --watch",
     "lint": "tslint './src/**/*.{ts,tsx}' -p tsconfig.json"
   },

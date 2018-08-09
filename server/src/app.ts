@@ -5,12 +5,13 @@ import passport from 'passport';
 import logger from './middleware/logger';
 import apiRouter from './routes/api';
 import authRouter from './routes/auth';
-import renderMainPage from './controllers/renderMainPage';
+import redirectToWebpack from './controllers/redirectToWebpack';
 
 import './services/passport';
 
-const { MONGO_URI, SESSION_SECRET } = process.env;
+const { MONGO_URI, SESSION_SECRET, NODE_ENV } = process.env;
 const MILLISECONDS_IN_ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
+const clientDistDir = __dirname + '/../../client/dist/';
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -19,9 +20,7 @@ mongoose
 
 const app = express();
 
-app.set('view engine', 'ejs');
 app.use(logger);
-app.use(express.static('public'));
 app.use(express.json());
 
 app.use(
@@ -35,8 +34,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', renderMainPage);
 app.use('/auth', authRouter);
 app.use('/api/', apiRouter);
+
+if (NODE_ENV === 'production') app.use(express.static(clientDistDir));
+else app.get('/', redirectToWebpack);
 
 export default app;

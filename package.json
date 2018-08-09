@@ -1,0 +1,15 @@
+{
+  "name": "fcc-voting-app",
+  "version": "1.0.0",
+  "engines": {
+    "node": "^8.11.3",
+    "yarn": "^1.9.2"
+  },
+  "scripts": {
+    "start": "cd server && yarn start",
+    "postinstall": "cd server && yarn && cd ../client && yarn"
+  },
+  "repository": "git@github.com:Beaglefoot/fcc-voting-app.git",
+  "author": "Beaglefoot <ch-e-st@yandex.ru>",
+  "license": "MIT"
+}
