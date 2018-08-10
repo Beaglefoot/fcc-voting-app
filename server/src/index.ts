@@ -2,7 +2,7 @@ import app from './app';
 import getCurrentTime from './helpers/getCurrentTime';
 import getCurrentIp from './helpers/getCurrentIp';
 
-const PORT = process.argv[2] || 3000;
+const PORT = process.env.PORT || process.argv[2] || 3000;
 const currentTime = getCurrentTime();
 const currentIp = getCurrentIp();
 
