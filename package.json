@@ -7,7 +7,9 @@
   },
   "scripts": {
     "start": "cd server && yarn start",
-    "postinstall": "cd server && yarn install --production=false && cd ../client && yarn install --production=false"
+    "postinstall": "yarn postinstall:server && yarn postinstall:client",
+    "postinstall:server": "cd server && yarn install --production=false ",
+    "postinstall:client": "cd client && yarn install --production=false && yarn build"
   },
   "repository": "git@github.com:Beaglefoot/fcc-voting-app.git",
   "author": "Beaglefoot <ch-e-st@yandex.ru>",
