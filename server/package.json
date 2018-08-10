@@ -7,7 +7,7 @@
     "precommit": "lint-staged",
     "env": "env $(cat .env)",
     "start": "yarn build && ([[ $NODE_ENV == 'production' ]] && node dist/index.js || yarn env node dist/index.js)",
-    "serve": "yarn env nodemon -i src dist/",
+    "serve": "yarn env nodemon -d 1 -i src dist/",
     "debug": "yarn env node --inspect-brk dist",
     "build": "tsc",
     "build:live": "tsc --watch",

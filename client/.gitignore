@@ -4,4 +4,3 @@ dist
 *.swp
 stats.json
 .awcache/
-index.html

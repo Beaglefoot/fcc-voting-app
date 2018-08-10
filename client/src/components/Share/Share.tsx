@@ -35,10 +35,6 @@ const Share = ({ className, size }: IProps) => (
       <SR.RedditIcon size={size} round />
     </SR.RedditShareButton>
 
-    <SR.MailruShareButton url={location.href}>
-      <SR.MailruIcon size={size} round />
-    </SR.MailruShareButton>
-
     <SR.EmailShareButton url={location.href}>
       <SR.EmailIcon size={size} round />
     </SR.EmailShareButton>
