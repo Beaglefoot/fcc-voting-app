@@ -5,8 +5,7 @@ import User, { IUser } from '../models/User';
 const {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
-  DEV_BOX_URL,
-  NODE_ENV
+  GITHUB_CALLBACK_URL
 } = process.env;
 
 passport.serializeUser((user: IUser, done) => done(null, user.id));
@@ -19,9 +18,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: `${
-        NODE_ENV !== 'production' ? DEV_BOX_URL : ''
-      }/auth/github/callback`
+      callbackURL: GITHUB_CALLBACK_URL
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
