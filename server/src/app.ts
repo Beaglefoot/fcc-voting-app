@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -37,7 +38,14 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 app.use('/api/', apiRouter);
 
-if (NODE_ENV === 'production') app.use(express.static(clientDistDir));
-else app.get('/', redirectToWebpack);
+if (NODE_ENV === 'production') {
+  app.use(express.static(clientDistDir));
+
+  // General fallback route. If the route is unrecognized,
+  // it's handled by react-router.
+  app.get('*', (_, res) => {
+    res.sendFile(path.resolve(clientDistDir, 'index.html'));
+  });
+} else app.get('/', redirectToWebpack);
 
 export default app;
