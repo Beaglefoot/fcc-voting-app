@@ -11,24 +11,47 @@ interface IProps extends React.Props<HTMLElement> {
   cancelClass?: string;
 }
 
-const Alert = (props: IProps) => (
-  <div className={classNames(alert, props.className)}>
-    <div className={container}>
-      <div className={message}>{props.children}</div>
-      <button
-        className={classNames(button, ok, props.okClass)}
-        onClick={props.onOk}
-      >
-        OK
-      </button>
-      <button
-        className={classNames(button, cancel, props.cancelClass)}
-        onClick={props.onCancel}
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-);
+class Alert extends React.Component<IProps> {
+  componentDidMount() {
+    window.addEventListener('keyup', this.handleKeyUp);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyUp);
+  }
+
+  handleKeyUp: EventListener = (e: KeyboardEvent) => {
+    if (e.key.toLocaleLowerCase() === 'escape')
+      (this.props.onCancel as () => {})();
+  };
+
+  render() {
+    const {
+      className,
+      children,
+      okClass,
+      onOk,
+      cancelClass,
+      onCancel
+    } = this.props;
+
+    return (
+      <div className={classNames(alert, className)}>
+        <div className={container}>
+          <div className={message}>{children}</div>
+          <button className={classNames(button, ok, okClass)} onClick={onOk}>
+            OK
+          </button>
+          <button
+            className={classNames(button, cancel, cancelClass)}
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Alert;
