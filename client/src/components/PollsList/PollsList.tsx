@@ -15,7 +15,8 @@ import {
   listItem,
   link,
   cross,
-  smallSpinner
+  smallSpinner,
+  pad
 } from './PollsList.scss';
 import { ThunkActionFunctionCreator } from 'src/actions/actions';
 
@@ -87,7 +88,11 @@ class PollsList extends React.Component<IProps, IState> {
                   ))}
               </li>
             )),
-          pending: () => <Spinner />,
+          pending: () => (
+            <div className={pad}>
+              <Spinner />
+            </div>
+          ),
           error: () => <div>{error}</div>
         }[fetchStatus]()}
 

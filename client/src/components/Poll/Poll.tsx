@@ -16,7 +16,8 @@ import {
   chart,
   title as titleClass,
   options as optionsClass,
-  share
+  share,
+  spinner
 } from './Poll.scss';
 
 interface IProps {
@@ -74,7 +75,7 @@ class Poll extends React.Component<IProps> {
             );
           },
 
-          pending: () => <Spinner />,
+          pending: () => <Spinner className={spinner} />,
           error: () => <div>{error}</div>
         }[fetchStatus]()}
       </div>

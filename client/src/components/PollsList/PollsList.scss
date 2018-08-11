@@ -59,3 +59,9 @@ $transition_duration: 0.5s;
   width: 1rem;
   height: 1rem;
 }
+
+.pad {
+  padding: $padding_main_components;
+  display: flex;
+  justify-content: center;
+}

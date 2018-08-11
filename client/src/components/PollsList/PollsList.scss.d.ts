@@ -4,3 +4,4 @@ export const cross: string;
 export const rightmostPosition: string;
 export const link: string;
 export const smallSpinner: string;
+export const pad: string;
