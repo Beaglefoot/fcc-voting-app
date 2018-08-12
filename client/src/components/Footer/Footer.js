@@ -4,7 +4,7 @@ class Footer {
   constructor() {
     const link = document.createElement('a');
     link.appendChild(document.createTextNode('Beaglefoot'));
-    link.setAttribute('href', 'https://github.com/Beaglefoot');
+    link.setAttribute('href', 'https://github.com/Beaglefoot/fcc-voting-app');
     link.classList.add(linkClass);
 
     this.footer = document.createElement('footer');

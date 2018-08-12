@@ -3,6 +3,7 @@ import path from 'path';
 import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import helmet from 'helmet';
 import logger from './middleware/logger';
 import apiRouter from './routes/api';
 import authRouter from './routes/auth';
@@ -21,6 +22,12 @@ mongoose
 
 const app = express();
 
+app.use(
+  helmet({
+    dnsPrefetchControl: false,
+    hidePoweredBy: false
+  })
+);
 app.use(logger);
 app.use(express.json());
 
