@@ -65,6 +65,11 @@ class Options extends React.Component<IProps, IState> {
     if (e.charCode === 13) {
       e.preventDefault();
 
+      if (!this.inputValue) {
+        this.setState(prevState => ({ ...prevState, isEditing: false }));
+        return;
+      }
+
       const newOption: IOption = {
         name: this.inputValue,
         votes: 0
