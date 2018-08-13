@@ -9,7 +9,7 @@ $transition_duration: 0.5s;
 
 .list-item {
   background: $clr_pollslist_record_alt;
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
   cursor: pointer;
   transition: background $transition_duration;
   position: relative;
@@ -30,8 +30,9 @@ $transition_duration: 0.5s;
 
 .rightmost-position {
   position: absolute;
-  top: 0.5rem;
+  top: 0;
   right: 1rem;
+  padding: inherit;
 }
 
 .link {
