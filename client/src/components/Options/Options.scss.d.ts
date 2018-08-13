@@ -5,3 +5,4 @@ export const option: string;
 export const input: string;
 export const plus: string;
 export const submit: string;
+export const disabled: string;

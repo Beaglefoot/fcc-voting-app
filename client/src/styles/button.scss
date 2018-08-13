@@ -15,4 +15,9 @@
   &:hover {
     filter: brightness(1.07);
   }
+
+  &:disabled {
+    filter: unset;
+    cursor: unset;
+  }
 }

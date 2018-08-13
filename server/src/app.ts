@@ -28,7 +28,9 @@ app.use(
     hidePoweredBy: false
   })
 );
-app.use(logger);
+
+if (NODE_ENV !== 'production') app.use(logger);
+
 app.use(express.json());
 
 app.use(

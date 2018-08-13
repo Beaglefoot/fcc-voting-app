@@ -23,7 +23,8 @@ import {
   title,
   input,
   plus,
-  submit
+  submit,
+  disabled
 } from './Options.scss';
 
 interface IProps {
@@ -39,6 +40,7 @@ interface IProps {
 interface IState {
   isEditing: boolean;
   additionalOptions: IOption[];
+  isOptionChosen: boolean;
 }
 
 class Options extends React.Component<IProps, IState> {
@@ -50,7 +52,8 @@ class Options extends React.Component<IProps, IState> {
     this.inputValue = '';
     this.state = {
       isEditing: false,
-      additionalOptions: []
+      additionalOptions: [],
+      isOptionChosen: false
     };
   }
 
@@ -94,6 +97,14 @@ class Options extends React.Component<IProps, IState> {
     );
   };
 
+  handleInputClick: React.FormEventHandler = e => {
+    if ((e.target as HTMLInputElement).type === 'radio')
+      this.setState(prevState => ({
+        ...prevState,
+        isOptionChosen: true
+      }));
+  };
+
   isAuth() {
     const { auth } = this.props;
     return auth.fetchStatus === 'done' && auth.data._id;
@@ -131,12 +142,13 @@ class Options extends React.Component<IProps, IState> {
 
   render() {
     const { options, className, vote } = this.props;
-    const { additionalOptions } = this.state;
+    const { additionalOptions, isOptionChosen } = this.state;
 
     return (
       <form
         className={classNames(form, className)}
         onSubmit={this.handleSubmit}
+        onInput={this.handleInputClick}
       >
         {{
           done: () =>
@@ -160,7 +172,11 @@ class Options extends React.Component<IProps, IState> {
                   {this.isAuth() && this.addOption()}
                 </ul>
 
-                <input className={submit} type="submit" />
+                <input
+                  className={classNames(submit, isOptionChosen || disabled)}
+                  type="submit"
+                  disabled={!isOptionChosen}
+                />
               </React.Fragment>
             ) : (
               <div>Thanks for voting!</div>

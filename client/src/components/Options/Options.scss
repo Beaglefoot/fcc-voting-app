@@ -40,4 +40,9 @@
 
 .submit {
   composes: button from 'src/styles/button.scss';
+  transition: all $duration_container_button_transition;
+}
+
+.disabled {
+  opacity: 0.5;
 }
