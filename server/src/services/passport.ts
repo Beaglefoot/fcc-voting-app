@@ -22,8 +22,8 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const existingUser = await User.findOne({ githubID: profile.id });
-        const user = existingUser || new User({ githubID: profile.id }).save();
+        let user = await User.findOne({ githubID: profile.id });
+        if (!user) user = await new User({ githubID: profile.id }).save();
         done(null, user);
       } catch (err) {
         console.error(err);
